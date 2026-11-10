@@ -23,10 +23,9 @@ function onUpdate(value: string | number) {
     type="text"
     inputmode="numeric"
     autocomplete="off"
-    variant="none"
     :maxlength="maxlength"
     :placeholder="placeholder"
-    :ui="{ root: 'w-full', base: [fieldPill, 'text-center'] }"
+    :ui="{ base: 'text-center' }"
     @update:model-value="onUpdate"
   />
 </template>

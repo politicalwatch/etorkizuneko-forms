@@ -48,26 +48,13 @@ function onUpdate(value: unknown) {
 </script>
 
 <template>
+  <!-- Look: `pill` variant in app.config.ts -->
   <USelect
     :model-value="model ?? undefined"
     :items="items"
     :placeholder="placeholder"
     :multiple="multiple"
-    variant="none"
     trailing-icon="i-lucide-chevron-down"
-    :ui="{
-      base: [fieldPill, 'pe-11 ps-4 text-start'],
-      placeholder: 'text-(--surface-fg)/80',
-      trailing: 'pe-4',
-      trailingIcon: 'size-5 text-(--surface-fg)',
-      content: 'mt-1 rounded-2xl bg-paper text-ink shadow-lg ring-0',
-      viewport: 'divide-y-0',
-      group: 'p-2',
-      item: 'px-3 py-1.5 text-ink before:rounded-full data-highlighted:not-data-disabled:text-ink data-highlighted:not-data-disabled:before:bg-option-highlight data-[state=checked]:font-semibold',
-      itemLabel: 'whitespace-normal',
-      // Single choice closes on pick; with several, show what's ticked
-      itemTrailingIcon: multiple ? 'size-4 text-brand-500' : 'hidden'
-    }"
     @update:model-value="onUpdate"
   />
 </template>
