@@ -4,7 +4,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxtjs/storybook',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@pinia/nuxt'
   ],
 
   devtools: {
@@ -13,7 +14,31 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // The design has a fixed identity (black / white / magenta) and screens pick
+  // their own surface, so there's no dark mode. Disabling it also drops
+  // @nuxtjs/color-mode, whose client plugin crashes in Storybook (it expects
+  // a helper script injected into the SSR HTML).
+  ui: {
+    colorMode: false
+  },
+
+  runtimeConfig: {
+    public: {
+      // Target of the header "Saber más" button (NUXT_PUBLIC_LEARN_MORE_URL)
+      learnMoreUrl: ''
+    }
+  },
+
   compatibilityDate: '2026-06-30',
+
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    }
+  },
 
   i18n: {
     // No URL prefix: the form is a guided flow, and switching language
@@ -32,15 +57,6 @@ export default defineNuxtConfig({
       useCookie: true,
       cookieKey: 'i18n_locale',
       fallbackLocale: 'es'
-    }
-  },
-
-  eslint: {
-    config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
     }
   }
 })

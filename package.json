@@ -18,8 +18,10 @@
     "@notionhq/client": "^5.31.1",
     "@nuxt/ui": "^4.12.0",
     "@nuxtjs/i18n": "^10.6.0",
+    "@pinia/nuxt": "^1.0.3",
     "gsap": "^3.15.1",
     "nuxt": "^4.6.4",
+    "pinia": "^4.1.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
@@ -38,5 +40,8 @@
     "esbuild@0.28.2": true,
     "fsevents@2.3.3": true,
     "vue-demi@0.14.10": true
+  },
+  "overrides": {
+    "@nuxt/fonts": "^1.2.0"
   }
 }
