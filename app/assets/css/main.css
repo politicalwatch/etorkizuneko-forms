@@ -1,18 +1,60 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme static {
-  --font-sans: 'Public Sans', sans-serif;
+/* Tailwind skips dot-folders: scan the Storybook decorators too */
+@source "../../../.storybook";
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+/*
+ * Design tokens — Industria form (Agertokiak).
+ * Defined as Tailwind v4 @theme: they generate utilities (bg-brand-500,
+ * text-ink…), feed Nuxt UI (primary = brand) and are exposed as custom
+ * properties usable from any <style>.
+ */
+@theme static {
+  /* Typography (loaded by @nuxt/fonts, bundled with Nuxt UI) */
+  --font-sans: 'DM Sans', sans-serif;
+
+  /* Brand magenta. 500 = value sampled from the design PDFs (to confirm) */
+  --color-brand-50: #fff0f8;
+  --color-brand-100: #ffe1f1;
+  --color-brand-200: #ffc3e3;
+  --color-brand-300: #ff94cb;
+  --color-brand-400: #ff52a8;
+  --color-brand-500: #ec008c;
+  --color-brand-600: #d10079;
+  --color-brand-700: #ad0064;
+  --color-brand-800: #8f0054;
+  --color-brand-900: #780049;
+  --color-brand-950: #4a0029;
+
+  /* Pure identity neutrals */
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+
+  /* Highlighted option in white dropdowns */
+  --color-option-highlight: #eeeeee;
+}
+
+/*
+ * Surfaces — the flow alternates screens on black (intro, profiling, result)
+ * and on white (worlds, splash). Instead of every component knowing where it
+ * lives, the screen declares its surface and children read these contextual
+ * custom properties (--surface-*, NOT @theme: they change with the ancestor).
+ */
+@utility surface-dark {
+  --surface-bg: var(--color-ink);
+  --surface-fg: var(--color-paper);
+  --surface-line: rgba(255, 255, 255, 0.7);
+  --surface-muted: rgba(255, 255, 255, 0.6);
+  background-color: var(--surface-bg);
+  color: var(--surface-fg);
+}
+
+@utility surface-light {
+  --surface-bg: var(--color-paper);
+  --surface-fg: var(--color-ink);
+  --surface-line: rgba(0, 0, 0, 0.6);
+  --surface-muted: rgba(0, 0, 0, 0.55);
+  background-color: var(--surface-bg);
+  color: var(--surface-fg);
 }
