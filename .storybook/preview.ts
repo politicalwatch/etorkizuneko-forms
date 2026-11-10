@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook-vue/nuxt'
-import { UApp } from '#components'
+import UApp from '@nuxt/ui/components/App.vue'
 
 const preview: Preview = {
   parameters: {
