@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "notion:export": "node --env-file-if-exists=.env scripts/notion-export.ts"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.147",
