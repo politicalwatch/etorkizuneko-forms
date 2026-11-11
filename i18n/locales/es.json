@@ -89,6 +89,7 @@
     "amount": "100 €",
     "emailLabel": "Email",
     "emailPlaceholder": "nombre{'@'}ejemplo.com",
-    "submit": "Enviar"
+    "submit": "Enviar",
+    "skip": "No, gracias"
   }
 }

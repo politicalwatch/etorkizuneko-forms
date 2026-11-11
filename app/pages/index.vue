@@ -56,6 +56,14 @@ watch(() => store.stepIndex, async () => {
         :world-index="store.step.worldIndex"
         :question-index="store.step.questionIndex"
       />
+      <ScreenResult
+        v-else-if="store.step.kind === 'result'"
+        :key="store.stepIndex"
+      />
+      <ScreenThanks
+        v-else-if="store.step.kind === 'thanks'"
+        :key="store.stepIndex"
+      />
       <ScreenOutro
         v-else
         :key="store.stepIndex"
