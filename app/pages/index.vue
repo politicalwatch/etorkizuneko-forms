@@ -46,6 +46,10 @@ watch(() => store.stepIndex, async () => {
         :key="store.stepIndex"
         :field-index="store.step.fieldIndex"
       />
+      <ScreenSplash
+        v-else-if="store.step.kind === 'splash'"
+        :key="store.stepIndex"
+      />
     </main>
 
     <AppTagline

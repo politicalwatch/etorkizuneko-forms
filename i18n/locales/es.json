@@ -5,14 +5,14 @@
     "close": "Cerrar",
     "language": "Idioma",
     "next": "Siguiente",
-    "progress": "Progreso",
-    "swipeToContinue": "Desliza para continuar"
+    "progress": "Progreso"
   },
   "intro": {
     "cta": "Descubre tu perfil"
   },
   "splash": {
-    "title": "Euskal gazteen etorkizuna irudikatzen"
+    "title": "Euskal gazteen etorkizuna irudikatzen",
+    "scrollHint": "Desliza para continuar"
   },
   "profiling": {
     "title": "Perfilado inicial",
