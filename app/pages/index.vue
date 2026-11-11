@@ -50,6 +50,12 @@ watch(() => store.stepIndex, async () => {
         v-else-if="store.step.kind === 'splash'"
         :key="store.stepIndex"
       />
+      <ScreenQuestion
+        v-else-if="store.step.kind === 'question'"
+        :key="store.stepIndex"
+        :world-index="store.step.worldIndex"
+        :question-index="store.step.questionIndex"
+      />
     </main>
 
     <AppTagline

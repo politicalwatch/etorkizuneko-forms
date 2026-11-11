@@ -242,7 +242,7 @@ function onKeydown(event: KeyboardEvent) {
         :transform="`rotate(${label.deg} ${label.x} ${label.y})`"
         text-anchor="middle"
         dominant-baseline="hanging"
-        class="fill-current text-[13px]"
+        class="fill-current text-[12px] font-light"
       >{{ label.value }}</text>
 
       <circle
