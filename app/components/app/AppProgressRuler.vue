@@ -2,16 +2,20 @@
 /*
  * Vertical tick ruler on the right edge. Two groups of ticks with the
  * percentage in the gap between them; as progress grows, ticks turn magenta
- * from the center outwards. With `progress` null only the ticks are drawn.
+ * from the center outwards. With `progress` null only the ticks are drawn;
+ * `complete` lights them all, also without a percentage (survey finished).
  */
 const props = withDefaults(defineProps<{
   // 0–1, or null to hide the percentage
   progress?: number | null
   // Ticks in each half
   ticks?: number
+  // Every tick lit, no percentage
+  complete?: boolean
 }>(), {
   progress: null,
-  ticks: 30
+  ticks: 30,
+  complete: false
 })
 
 const { t } = useI18n()
@@ -21,9 +25,10 @@ const percent = computed(() =>
 )
 
 // Ticks lit on each side of the center
-const lit = computed(() =>
-  percent.value == null ? 0 : Math.round((percent.value / 100) * props.ticks)
-)
+const lit = computed(() => {
+  if (props.complete) return props.ticks
+  return percent.value == null ? 0 : Math.round((percent.value / 100) * props.ticks)
+})
 
 // Top half counts from the top edge, so the lit ones are the last `lit`
 const isLitTop = (index: number) => index >= props.ticks - lit.value

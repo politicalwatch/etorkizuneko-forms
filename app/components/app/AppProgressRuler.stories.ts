@@ -30,3 +30,8 @@ export const Complete: Story = {
 export const WithoutPercentage: Story = {
   args: { progress: null }
 }
+
+// End screens (result, thanks, outro)
+export const Finished: Story = {
+  args: { progress: null, complete: true }
+}

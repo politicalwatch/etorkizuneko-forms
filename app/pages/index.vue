@@ -77,6 +77,7 @@ watch(() => store.stepIndex, async () => {
 
     <AppProgressRuler
       :progress="store.progress"
+      :complete="store.finished"
       class="fixed end-3 top-1/2 -translate-y-1/2 sm:end-4"
     />
   </div>

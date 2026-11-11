@@ -85,6 +85,9 @@ export const useSurveyStore = defineStore('survey', () => {
     }
   })
 
+  // Past the last question: the ruler shows fully lit, without a percentage
+  const finished = computed(() => ['result', 'thanks', 'outro'].includes(step.value.kind))
+
   function next() {
     if (stepIndex.value < steps.length - 1) stepIndex.value++
   }
@@ -96,5 +99,5 @@ export const useSurveyStore = defineStore('survey', () => {
     stepIndex.value = 0
   }
 
-  return { profiling, answers, email, stepIndex, step, result, progress, next, reset }
+  return { profiling, answers, email, stepIndex, step, result, progress, finished, next, reset }
 })
