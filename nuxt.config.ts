@@ -1,4 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { existsSync } from 'node:fs'
+import { instanceNames, isInstanceName } from './app/instances'
+
+// Thematic instance this deployment serves (app/instances). Nuxt maps
+// NUXT_PUBLIC_INSTANCE_NAME onto runtimeConfig.public.instanceName at runtime;
+// reading it here too (.env is already loaded) makes a typo fail at startup
+// instead of on the first render.
+const INSTANCE_NAME = process.env.NUXT_PUBLIC_INSTANCE_NAME ?? 'industria'
+
+if (!isInstanceName(INSTANCE_NAME)) {
+  throw new Error(
+    `Unknown NUXT_PUBLIC_INSTANCE_NAME "${INSTANCE_NAME}". Available: ${instanceNames.join(', ')}.\n`
+    + 'Set it in .env (see .env.example).'
+  )
+}
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -24,6 +40,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      instanceName: INSTANCE_NAME,
       // Target of the header "Saber más" button (NUXT_PUBLIC_LEARN_MORE_URL)
       learnMoreUrl: ''
     }
