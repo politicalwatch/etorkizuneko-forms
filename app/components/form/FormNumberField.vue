@@ -25,7 +25,7 @@ function onUpdate(value: string | number) {
     autocomplete="off"
     :maxlength="maxlength"
     :placeholder="placeholder"
-    :ui="{ base: 'text-center' }"
+    :ui="{ base: 'text-center text-xl font-light' }"
     @update:model-value="onUpdate"
   />
 </template>

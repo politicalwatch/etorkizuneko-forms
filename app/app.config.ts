@@ -50,8 +50,10 @@ export default defineAppConfig({
           }
         }
       },
+      // xl keeps text-base on desktop (smaller sizes switch to md:text-sm)
       defaultVariants: {
-        variant: 'pill'
+        variant: 'pill',
+        size: 'xl'
       }
     },
 
@@ -68,7 +70,7 @@ export default defineAppConfig({
             viewport: 'divide-y-0',
             group: 'p-2',
             item: [
-              'px-3 py-1.5 text-ink before:rounded-full data-[state=checked]:font-semibold',
+              'text-ink before:rounded-full data-[state=checked]:font-semibold',
               'data-highlighted:not-data-disabled:text-ink data-highlighted:not-data-disabled:before:bg-option-highlight'
             ],
             itemLabel: 'whitespace-normal',
@@ -88,7 +90,8 @@ export default defineAppConfig({
         }
       ],
       defaultVariants: {
-        variant: 'pill'
+        variant: 'pill',
+        size: 'xl'
       }
     }
   }

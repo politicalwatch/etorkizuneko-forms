@@ -41,6 +41,11 @@ watch(() => store.stepIndex, async () => {
         v-if="store.step.kind === 'intro'"
         :key="store.stepIndex"
       />
+      <ScreenProfiling
+        v-else-if="store.step.kind === 'profiling'"
+        :key="store.stepIndex"
+        :field-index="store.step.fieldIndex"
+      />
     </main>
 
     <AppTagline

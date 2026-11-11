@@ -76,6 +76,14 @@ export default defineNuxtConfig({
     }
   },
 
+  // DM Sans comes from Nuxt UI's defaults (400–700); the design also uses
+  // Light for typed numbers (FormNumberField)
+  fonts: {
+    defaults: {
+      weights: [300, 400, 500, 600, 700]
+    }
+  },
+
   i18n: {
     // No URL prefix: the form is a guided flow, and switching language
     // (setLocale) must not navigate or lose what has already been filled in.
