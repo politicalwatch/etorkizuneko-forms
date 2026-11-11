@@ -35,8 +35,12 @@ watch(() => store.stepIndex, async () => {
 
     <main
       ref="main"
-      class="flex flex-1 flex-col px-6 py-10 pe-12 sm:px-16 sm:pe-24"
+      class="flex flex-1 flex-col px-6 py-10 pe-12 sm:px-24"
     >
+      <ScreenIntro
+        v-if="store.step.kind === 'intro'"
+        :key="store.stepIndex"
+      />
     </main>
 
     <AppTagline
