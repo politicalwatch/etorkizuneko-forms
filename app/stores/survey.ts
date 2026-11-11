@@ -2,47 +2,9 @@ import { defineStore } from 'pinia'
 import type { InstanceDefinition } from '~/survey/instance'
 import type { ProfilingFieldId, ProfilingValue } from '~/survey/profiling'
 import { resolveProfile, type Answers } from '~/survey/scoring'
+import { buildSteps, stepKey } from '~/survey/steps'
 
 export type ProfilingAnswers = Partial<Record<ProfilingFieldId, ProfilingValue>>
-
-/*
- * The whole experience is one guided flow. Each step is one screen; the page
- * renders the screen for the current step. Keeping it a flat list makes
- * "next", progress and (later) GSAP transitions between screens trivial.
- */
-export type Step
-  = | { kind: 'intro' }
-    | { kind: 'profiling', fieldIndex: number }
-    // Interstitial shown when entering and leaving the worlds
-    | { kind: 'splash', position: 'before' | 'after' }
-    | { kind: 'question', worldIndex: number, questionIndex: number, flatIndex: number }
-    | { kind: 'result' }
-    | { kind: 'thanks' }
-    | { kind: 'outro' }
-
-export function buildSteps(instance: InstanceDefinition): Step[] {
-  const steps: Step[] = [{ kind: 'intro' }]
-
-  instance.profiling.forEach((_, fieldIndex) => steps.push({ kind: 'profiling', fieldIndex }))
-
-  steps.push({ kind: 'splash', position: 'before' })
-
-  let flatIndex = 0
-  instance.worlds.forEach((world, worldIndex) => {
-    world.questions.forEach((_, questionIndex) => {
-      steps.push({ kind: 'question', worldIndex, questionIndex, flatIndex: flatIndex++ })
-    })
-  })
-
-  steps.push(
-    { kind: 'splash', position: 'after' },
-    { kind: 'result' },
-    { kind: 'thanks' },
-    { kind: 'outro' }
-  )
-
-  return steps
-}
 
 function emptyProfiling(instance: InstanceDefinition): ProfilingAnswers {
   return Object.fromEntries(instance.profiling.map(field => [
@@ -63,6 +25,11 @@ export const useSurveyStore = defineStore('survey', () => {
 
   const stepIndex = ref(0)
   const step = computed(() => steps[stepIndex.value]!)
+  const stepId = computed(() => stepKey(instance, step.value))
+
+  // Signed reference to this response's Notion row, set by the first save
+  // (useResponsePersistence). Lives only in memory: a reload starts a new one.
+  const responseToken = ref<string | null>(null)
 
   // Id of the winning result profile
   const result = computed(() => resolveProfile(instance.profiles, answers.value))
@@ -97,7 +64,8 @@ export const useSurveyStore = defineStore('survey', () => {
     answers.value = {}
     email.value = ''
     stepIndex.value = 0
+    responseToken.value = null
   }
 
-  return { profiling, answers, email, stepIndex, step, result, progress, finished, next, reset }
+  return { profiling, answers, email, stepIndex, step, stepId, responseToken, result, progress, finished, next, reset }
 })
