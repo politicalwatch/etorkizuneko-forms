@@ -56,6 +56,10 @@ watch(() => store.stepIndex, async () => {
         :world-index="store.step.worldIndex"
         :question-index="store.step.questionIndex"
       />
+      <ScreenOutro
+        v-else
+        :key="store.stepIndex"
+      />
     </main>
 
     <AppTagline
