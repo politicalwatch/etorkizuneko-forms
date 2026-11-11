@@ -1,76 +1,52 @@
+<script setup lang="ts">
+/*
+ * The whole experience lives on this page: it renders the screen for the
+ * current step of the survey store. Each screen is keyed by the step index so
+ * it remounts per step (fresh local state, and a clean hook for the GSAP
+ * transitions later).
+ */
+const store = useSurveyStore()
+
+// Worlds and splash sit on white; everything else on black
+const surface = computed(() =>
+  store.step.kind === 'splash' || store.step.kind === 'question' ? 'light' : 'dark'
+)
+
+// On mobile the white screens are full-bleed, without the tagline
+const showTaglineOnMobile = computed(() => surface.value === 'dark')
+
+// Move focus into the new screen so keyboard and screen reader users land on
+// it: its main field if it has one, else its heading. Skipped on first load.
+const main = useTemplateRef<HTMLElement>('main')
+watch(() => store.stepIndex, async () => {
+  await nextTick()
+  const target = main.value?.querySelector<HTMLElement>('[data-autofocus]')
+    ?? main.value?.querySelector<HTMLElement>('h1')
+  target?.focus()
+})
+</script>
+
 <template>
-  <div>
-    <UPageHero
-      title="Nuxt Starter Template"
-      description="A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours."
-      :links="[{
-        label: 'Get started',
-        to: 'https://ui.nuxt.com/docs/getting-started/installation/nuxt',
-        target: '_blank',
-        trailingIcon: 'i-lucide-arrow-right',
-        size: 'xl'
-      }, {
-        label: 'Use this template',
-        to: 'https://github.com/nuxt-ui-templates/starter',
-        target: '_blank',
-        icon: 'i-simple-icons-github',
-        size: 'xl',
-        color: 'neutral',
-        variant: 'subtle'
-      }]"
+  <div
+    class="relative flex min-h-dvh flex-col transition-colors duration-500"
+    :class="surface === 'light' ? 'surface-light' : 'surface-dark'"
+  >
+    <AppHeader />
+
+    <main
+      ref="main"
+      class="flex flex-1 flex-col px-6 py-10 pe-12 sm:px-16 sm:pe-24"
+    >
+    </main>
+
+    <AppTagline
+      class="px-6 pb-8"
+      :class="{ 'max-md:hidden': !showTaglineOnMobile }"
     />
 
-    <UPageSection
-      id="features"
-      title="Everything you need to build modern Nuxt apps"
-      description="Start with a solid foundation. This template includes all the essentials for building production-ready applications with Nuxt UI's powerful component system."
-      :features="[{
-        icon: 'i-lucide-rocket',
-        title: 'Production-ready from day one',
-        description: 'Pre-configured with TypeScript, ESLint, Tailwind CSS, and all the best practices. Focus on building features, not setting up tooling.'
-      }, {
-        icon: 'i-lucide-palette',
-        title: 'Beautiful by default',
-        description: 'Leveraging Nuxt UI\'s design system with automatic dark mode, consistent spacing, and polished components that look great out of the box.'
-      }, {
-        icon: 'i-lucide-zap',
-        title: 'Lightning fast',
-        description: 'Optimized for performance with SSR/SSG support, automatic code splitting, and edge-ready deployment. Your users will love the speed.'
-      }, {
-        icon: 'i-lucide-blocks',
-        title: '100+ components included',
-        description: 'Access Nuxt UI\'s comprehensive component library. From forms to navigation, everything is accessible, responsive, and customizable.'
-      }, {
-        icon: 'i-lucide-code-2',
-        title: 'Developer experience first',
-        description: 'Auto-imports, hot module replacement, and TypeScript support. Write less boilerplate and ship more features.'
-      }, {
-        icon: 'i-lucide-shield-check',
-        title: 'Built for scale',
-        description: 'Enterprise-ready architecture with proper error handling, SEO optimization, and security best practices built-in.'
-      }]"
+    <AppProgressRuler
+      :progress="store.progress"
+      class="fixed end-3 top-1/2 -translate-y-1/2 sm:end-4"
     />
-
-    <UPageSection>
-      <UPageCTA
-        title="Ready to build your next Nuxt app?"
-        description="Join thousands of developers building with Nuxt and Nuxt UI. Get this template and start shipping today."
-        variant="subtle"
-        :links="[{
-          label: 'Start building',
-          to: 'https://ui.nuxt.com/docs/getting-started/installation/nuxt',
-          target: '_blank',
-          trailingIcon: 'i-lucide-arrow-right',
-          color: 'neutral'
-        }, {
-          label: 'View on GitHub',
-          to: 'https://github.com/nuxt-ui-templates/starter',
-          target: '_blank',
-          icon: 'i-simple-icons-github',
-          color: 'neutral',
-          variant: 'outline'
-        }]"
-      />
-    </UPageSection>
   </div>
 </template>
