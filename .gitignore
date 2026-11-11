@@ -23,6 +23,9 @@ logs
 .env.*
 !.env.example
 
+# CSV backups of the responses (personal data): npm run notion:export
+exports
+
 *storybook.log
 storybook-static
 
