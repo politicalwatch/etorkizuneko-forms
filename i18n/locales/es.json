@@ -1,1 +1,94 @@
-{}
+{
+  "app": {
+    "tagline": "Euskal gazteen etorkizuna irudikatzen",
+    "learnMore": "Saber más",
+    "close": "Cerrar",
+    "language": "Idioma",
+    "next": "Siguiente",
+    "progress": "Progreso",
+    "swipeToContinue": "Desliza para continuar"
+  },
+  "intro": {
+    "cta": "Descubre tu perfil"
+  },
+  "splash": {
+    "title": "Euskal gazteen etorkizuna irudikatzen"
+  },
+  "profiling": {
+    "title": "Perfilado inicial",
+    "selectPlaceholder": "Selecciona...",
+    "fields": {
+      "age": "Edad",
+      "gender": "Género",
+      "postalCode": "Código postal",
+      "diversity": "Diversidad",
+      "education": "Nivel de estudios",
+      "occupation": "Situación actual",
+      "fieldOfStudy": "Ámbito de formación"
+    },
+    "options": {
+      "gender": {
+        "male": "Masculino",
+        "female": "Femenino",
+        "nonBinary": "No binario",
+        "undisclosed": "Prefiero no decirlo"
+      },
+      "diversity": {
+        "lgtbiq": "LGTBIQ+",
+        "racialized": "Persona racializada",
+        "functionalDiversity": "Persona con diversidad funcional",
+        "otherMinority": "Persona de otro colectivo minorizado",
+        "none": "Ninguna de las anteriores"
+      },
+      "education": {
+        "eso": "ESO o inferior",
+        "bachillerato": "Bachillerato",
+        "gradoMedio": "Grado Medio",
+        "gradoSuperior": "Grado Superior",
+        "university": "Grado Universitario",
+        "master": "Máster o Postgrado",
+        "other": "Otros"
+      },
+      "occupation": {
+        "studying": "Estudio",
+        "working": "Trabajo",
+        "studyingAndWorking": "Estudio y trabajo",
+        "jobSeeking": "En busca de trabajo",
+        "other": "Otra"
+      },
+      "fieldOfStudy": {
+        "engineering": "Ingeniería, industria y fabricación",
+        "technology": "Tecnología, informática y digitalización",
+        "naturalSciences": "Ciencias naturales, física y química",
+        "health": "Salud y ciencias de la vida",
+        "business": "Economía, empresa y gestión",
+        "socialSciences": "Derecho, política y ciencias sociales",
+        "humanities": "Humanidades, comunicación y educación",
+        "arts": "Arte, diseño y creatividad",
+        "other": "Otros ámbitos"
+      }
+    }
+  },
+  "worlds": {
+    "title": "Mundo {number}",
+    "prompt": "¿Cómo de acuerdo estás con la siguiente frase?",
+    "questionOf": "Pregunta {current} de {total}",
+    "scale": {
+      "min": "Para nada",
+      "max": "Completamente"
+    }
+  },
+  "result": {
+    "eyebrow": "Tu perfil",
+    "share": "Compartir",
+    "linkCopied": "Enlace copiado"
+  },
+  "thanks": {
+    "title": "Eskerrik asko!",
+    "body": "Si quieres participar en la experiencia y optar a una beca de {amount}, ¡déjanos tu email y nos pondremos en contacto contigo! :)",
+    "amount": "100 €",
+    "emailLabel": "Email",
+    "emailPlaceholder": "nombre{'@'}ejemplo.com",
+    "submit": "Enviar"
+  }
+}

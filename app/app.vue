@@ -2,6 +2,7 @@
 // i18n-driven head: <html lang/dir>, hreflang and og:locale per locale
 const localeHead = useLocaleHead()
 const { t } = useI18n()
+const { textKey } = useInstance()
 
 useHead(() => ({
   htmlAttrs: localeHead.value.htmlAttrs ?? {},
@@ -16,10 +17,10 @@ useHead(() => ({
 }))
 
 useSeoMeta({
-  title: () => `${t('app.title')} · ${t('app.tagline')}`,
-  description: () => t('app.description'),
-  ogTitle: () => t('app.title'),
-  ogDescription: () => t('app.description')
+  title: () => `${t(textKey('title'))} · ${t('app.tagline')}`,
+  description: () => t(textKey('description')),
+  ogTitle: () => t(textKey('title')),
+  ogDescription: () => t(textKey('description'))
 })
 </script>
 

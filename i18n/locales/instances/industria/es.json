@@ -1,0 +1,59 @@
+{
+  "instances": {
+    "industria": {
+      "title": "Industria",
+      "description": "Responde a estas pequeñas grandes preguntas y descubre qué perfil encaja más contigo y qué papel podrías tener en la industria del futuro.",
+      "topic": "[Industria]",
+      "intro": {
+        "subtitle": "Y tú, ¿qué puedes aportar a la industria del futuro?",
+        "body": "Responde a estas pequeñas grandes preguntas y descubre qué perfil encaja más contigo y qué papel podrías tener en la industria del futuro."
+      },
+      "shareText": "Mi perfil en la industria del futuro: {profile}. ¿Y el tuyo?",
+      "questions": {
+        "likelyJob": "Es probable que acabe teniendo un trabajo en la industria vasca.",
+        "wantCareer": "Deseo desarrollar mi vida laboral en la industria vasca.",
+        "goodSalary": "Si trabajara en el sector industrial tendría un buen salario.",
+        "stableJob": "Si trabajara en el sector industrial tendría un trabajo estable y con posibilidad de escalar posiciones.",
+        "fun": "Si trabajara en el sector industrial me divertiría en mi trabajo.",
+        "creative": "La industria vasca es un sector en el que tendría lugar en el que ser creativo/a.",
+        "informed": "Estoy informado/a de las posibilidades laborales que hay dentro de la industria vasca.",
+        "basqueRequired": "Para acceder a un empleo en el sector es obligatorio que sepa Euskera.",
+        "meritOnly": "Para acceder a un empleo en la industria solo importan los méritos y las capacidades, los contactos son irrelevantes.",
+        "manualOnly": "Solamente trabajadores manuales y técnicos especialistas pueden trabajar en la industria vasca.",
+        "socialSciences": "Las carreras vinculadas a las ciencias sociales no tienen espacio en la industria vasca.",
+        "masculine": "La industria vasca es un mundo muy masculino.",
+        "localOwners": "Los propietarios de las empresas industriales de Euskadi son de nuestro país.",
+        "modern": "La industria vasca es muy moderna y funciona con los últimos adelantos tecnológicos.",
+        "wellbeing": "En la industria vasca se fabrican productos que mejoran nuestro bienestar.",
+        "pollution": "La industria vasca es responsable de gran parte de la contaminación de Euskadi.",
+        "innovation": "La industria vasca y su investigación son fuente de innovaciones que mejoran la vida de las personas."
+      },
+      "profiles": {
+        "imagina": {
+          "name": "Imagina",
+          "headline": "Ves en la industria un espacio para crear.",
+          "body": "Crees que la industria puede ser mucho más que fabricar productos. La imaginas como un lugar donde explorar ideas, desarrollar tu creatividad y encontrar nuevas maneras de hacer las cosas.",
+          "gaze": "Tu mirada conecta la industria con la creatividad y las posibilidades de futuro."
+        },
+        "proyecta": {
+          "name": "Proyecta",
+          "headline": "Ves en la industria un lugar donde construir tu futuro.",
+          "body": "Para ti, la industria representa una oportunidad de desarrollo profesional. Valoras las posibilidades de encontrar un empleo estable, crecer y construir un proyecto de vida.",
+          "gaze": "Tu mirada conecta la industria con las oportunidades y la estabilidad."
+        },
+        "innova": {
+          "name": "Innova",
+          "headline": "Ves en la industria un motor de nuevas posibilidades.",
+          "body": "Asocias la industria con la tecnología, la investigación y los avances que transforman nuestro entorno. Para ti, su futuro pasa por desarrollar soluciones que todavía estamos empezando a imaginar.",
+          "gaze": "Tu mirada conecta la industria con el conocimiento y la innovación tecnológica."
+        },
+        "transforma": {
+          "name": "Transforma",
+          "headline": "Ves en la industria una herramienta para mejorar la sociedad.",
+          "body": "Reconoces su capacidad para generar bienestar y desarrollar innovaciones que mejoran nuestras vidas. Para ti, el valor de la industria también está en lo que aporta a las personas.",
+          "gaze": "Tu mirada conecta la industria con el bienestar y el impacto social."
+        }
+      }
+    }
+  }
+}

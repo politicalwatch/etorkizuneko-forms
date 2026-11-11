@@ -15,6 +15,25 @@ if (!isInstanceName(INSTANCE_NAME)) {
   )
 }
 
+/**
+ * i18n files for a language: the shared UI texts plus each registered
+ * instance's own texts (`instances/<name>/<code>.json` → `instances.<name>.*`).
+ * @nuxtjs/i18n doesn't expand globs, and listing them from the registry means
+ * only registered instances are bundled. All of them are, so the runtime
+ * override keeps working. `required` (the source language) fails at startup
+ * if an instance is missing its file; other languages are optional, missing
+ * keys fall back to es. A new file needs a dev server restart.
+ */
+function localeFiles(code: string, { required = false } = {}) {
+  const files = [`${code}.json`]
+  for (const name of instanceNames) {
+    const file = `instances/${name}/${code}.json`
+    if (existsSync(new URL(`./i18n/locales/${file}`, import.meta.url))) files.push(file)
+    else if (required) throw new Error(`Missing i18n/locales/${file} (texts of instance "${name}")`)
+  }
+  return files
+}
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -63,9 +82,9 @@ export default defineNuxtConfig({
     strategy: 'no_prefix',
     defaultLocale: 'es',
     locales: [
-      { code: 'es', language: 'es-ES', name: 'Español', file: 'es.json' },
-      { code: 'eu', language: 'eu-ES', name: 'Euskera', file: 'eu.json' },
-      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' }
+      { code: 'es', language: 'es-ES', name: 'Español', files: localeFiles('es', { required: true }) },
+      { code: 'eu', language: 'eu-ES', name: 'Euskera', files: localeFiles('eu') },
+      { code: 'en', language: 'en-US', name: 'English', files: localeFiles('en') }
     ],
     // The chosen language is stored in a cookie so it survives reloads
     // (and SSR renders in that language). On the first visit the browser
