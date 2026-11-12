@@ -20,7 +20,7 @@ cp .env.example .env   # then fill it in, see below
 
 | Variable | Description |
 | --- | --- |
-| `NUXT_PUBLIC_INSTANCE_NAME` | Thematic instance this deployment serves, one of `app/instances` (`industria`). |
+| `NUXT_PUBLIC_INSTANCE_NAME` | Thematic instance this deployment serves, one of `shared/instances` (`industria`). |
 | `NUXT_PUBLIC_LEARN_MORE_URL` | Target of the header "Saber más" button; the button is hidden while empty. |
 | `NUXT_NOTION_API_KEY` | Token of the Notion integration that writes the responses. Secret, server only. |
 | `NUXT_NOTION_DATA_SOURCE_ID` | The Notion table's **data source** id (not the database id). |
@@ -53,15 +53,15 @@ CI (`.github/workflows/ci.yml`) runs lint and typecheck on every push.
 - `app/pages/index.vue`: the whole experience is one page that renders the screen for the current step.
 - `app/stores/survey.ts`: answers and the current step.
 - `app/components/screen/`: one component per kind of screen (intro, profiling, splash, question, result, thanks, outro).
-- `app/survey/`: shared survey definitions (profiling questions, answer scale, steps, result scoring).
-- `app/instances/`: one definition per thematic instance (its worlds, questions and result profiles), plus the registry.
+- `shared/survey/`: survey model used by both the app and the server (profiling questions, answer scale, steps, result scoring).
+- `shared/instances/`: one definition per thematic instance (its worlds, questions and result profiles), plus the registry.
 - `i18n/locales/`: shared UI texts, and each instance's own texts in `instances/<name>/`.
 - `server/`: API that saves responses to Notion.
 - `scripts/`: command-line tools.
 
 ### Adding an instance
 
-1. Create `app/instances/<name>.ts` with `defineInstance` (see `industria.ts`) and register it in `app/instances/index.ts`.
+1. Create `shared/instances/<name>.ts` with `defineInstance` (see `industria.ts`) and register it in `shared/instances/index.ts`.
 2. Add its texts in `i18n/locales/instances/<name>/es.json` (required; `eu.json` and `en.json` are optional). Restart the dev server to pick up new files.
 3. Deploy with `NUXT_PUBLIC_INSTANCE_NAME=<name>` and a Notion table of its own.
 

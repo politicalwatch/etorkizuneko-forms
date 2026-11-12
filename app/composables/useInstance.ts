@@ -1,4 +1,4 @@
-import { instanceNames, instances, isInstanceName } from '~/instances'
+import { instanceNames, instances, isInstanceName } from '#shared/instances'
 
 /**
  * The thematic instance this deployment serves, and the i18n key of its own

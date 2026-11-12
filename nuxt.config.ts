@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { existsSync } from 'node:fs'
-import { instanceNames, isInstanceName } from './app/instances'
+import { instanceNames, isInstanceName } from './shared/instances'
 
-// Thematic instance this deployment serves (app/instances). Nuxt maps
+// Thematic instance this deployment serves (shared/instances). Nuxt maps
 // NUXT_PUBLIC_INSTANCE_NAME onto runtimeConfig.public.instanceName at runtime;
 // reading it here too (.env is already loaded) makes a typo fail at startup
 // instead of on the first render.

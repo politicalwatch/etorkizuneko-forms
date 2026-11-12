@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import type { InstanceDefinition } from '~/survey/instance'
-import type { ProfilingFieldId, ProfilingValue } from '~/survey/profiling'
-import { resolveProfile, type Answers } from '~/survey/scoring'
-import { buildSteps, stepKey } from '~/survey/steps'
+import type { InstanceDefinition } from '#shared/survey/instance'
+import type { ProfilingFieldId, ProfilingValue } from '#shared/survey/profiling'
+import { resolveProfile, type Answers } from '#shared/survey/scoring'
+import { buildSteps, stepKey } from '#shared/survey/steps'
 
 export type ProfilingAnswers = Partial<Record<ProfilingFieldId, ProfilingValue>>
 

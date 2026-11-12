@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@nuxtjs/storybook'
 import { watchEffect } from 'vue'
 // Controls are built at module load, before there's an app to ask for the
 // active instance, so stories show Industria's
-import industria from '../../instances/industria'
-import { SCALE_MAX, SCALE_MIN } from '../../survey/scale'
-import type { Answers } from '../../survey/scoring'
+import industria from '#shared/instances/industria'
+import { SCALE_MAX, SCALE_MIN } from '#shared/survey/scale'
+import type { Answers } from '#shared/survey/scoring'
 import { useSurveyStore } from '../../stores/survey'
 import ScreenResult from './ScreenResult.vue'
 

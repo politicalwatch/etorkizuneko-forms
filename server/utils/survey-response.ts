@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { instances, isInstanceName } from '~~/app/instances'
-import type { InstanceDefinition } from '~~/app/survey/instance'
-import type { ProfilingField } from '~~/app/survey/profiling'
-import { SCALE_MAX, SCALE_MIN } from '~~/app/survey/scale'
-import { buildSteps, stepKey } from '~~/app/survey/steps'
+import { instances, isInstanceName } from '#shared/instances'
+import type { InstanceDefinition } from '#shared/survey/instance'
+import type { ProfilingField } from '#shared/survey/profiling'
+import { SCALE_MAX, SCALE_MIN } from '#shared/survey/scale'
+import { buildSteps, stepKey } from '#shared/survey/steps'
 
 /** The instance this deployment serves (NUXT_PUBLIC_INSTANCE_NAME). */
 export function useSurveyInstance(): InstanceDefinition {

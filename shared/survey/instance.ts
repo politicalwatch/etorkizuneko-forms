@@ -3,7 +3,7 @@ import type { ProfilingField } from './profiling'
 /*
  * A thematic instance of the form (Industria, …): its worlds, its result
  * profiles and which profiling questions it asks. The deployment picks one
- * with NUXT_PUBLIC_INSTANCE_NAME (see app/instances).
+ * with NUXT_PUBLIC_INSTANCE_NAME (see shared/instances).
  *
  * Structure only: texts live in i18n under `instances.<name>.*` (see
  * useInstance), keyed by these ids, which are also the stable keys we

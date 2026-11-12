@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@nuxtjs/storybook'
 // Controls are built at module load, before there's an app to ask for the
 // active instance, so stories show Industria's
-import industria from '../../instances/industria'
+import industria from '#shared/instances/industria'
 import { useSurveyStore } from '../../stores/survey'
 import ScreenQuestion from './ScreenQuestion.vue'
 

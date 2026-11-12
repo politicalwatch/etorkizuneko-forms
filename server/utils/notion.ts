@@ -1,7 +1,7 @@
 import { Client } from '@notionhq/client'
 import type { CreatePageParameters, UpdateDataSourceParameters } from '@notionhq/client'
-import type { InstanceDefinition } from '~~/app/survey/instance'
-import { resolveProfile } from '~~/app/survey/scoring'
+import type { InstanceDefinition } from '#shared/survey/instance'
+import { resolveProfile } from '#shared/survey/scoring'
 
 /*
  * Responses are stored one row per person in a Notion data source (a table).

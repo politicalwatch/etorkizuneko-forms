@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SCALE_MAX, SCALE_MIN, SCALE_STEP } from '~/survey/scale'
+import { SCALE_MAX, SCALE_MIN, SCALE_STEP } from '#shared/survey/scale'
 
 // One world question. Remounted per step (keyed), like the profiling screen.
 const { worldIndex, questionIndex } = defineProps<{
