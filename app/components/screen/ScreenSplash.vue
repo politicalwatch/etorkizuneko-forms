@@ -1,17 +1,12 @@
 <script setup lang="ts">
-// Interstitial before and after the worlds. For now it moves on by itself
-// after a pause; a scroll-driven GSAP transition will replace the timer later
-// (hence the scroll hint).
-const SPLASH_DURATION_MS = 2500
+// Interstitial before and after the worlds. Scrolling moves on (the page runs
+// that transition, see useScrollAdvance); the scroll hint is also a button,
+// for whoever doesn't scroll.
+const emit = defineEmits<{
+  continue: []
+}>()
 
 const { t } = useI18n()
-const store = useSurveyStore()
-
-let timer: ReturnType<typeof setTimeout> | undefined
-onMounted(() => {
-  timer = setTimeout(() => store.next(), SPLASH_DURATION_MS)
-})
-onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
@@ -31,7 +26,16 @@ onBeforeUnmount(() => clearTimeout(timer))
       <StageVisual class="w-3/4 sm:w-56" />
     </div>
 
-    <p class="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3 text-xl text-(--surface-muted)">
+    <button
+      type="button"
+      class="
+        absolute bottom-0 left-1/2 flex -translate-x-1/2 cursor-pointer flex-col items-center gap-3
+        rounded-lg px-3 py-2 text-xl text-(--surface-muted) outline-brand-500
+        hover:text-(--surface-fg)
+        focus-visible:outline-2
+      "
+      @click="emit('continue')"
+    >
       {{ t('splash.scrollHint') }}
       <span
         class="flex flex-col items-center -space-y-0.5"
@@ -44,6 +48,6 @@ onBeforeUnmount(() => clearTimeout(timer))
           class="size-5"
         />
       </span>
-    </p>
+    </button>
   </section>
 </template>

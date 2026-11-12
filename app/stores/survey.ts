@@ -26,6 +26,7 @@ export const useSurveyStore = defineStore('survey', () => {
   const stepIndex = ref(0)
   const step = computed(() => steps[stepIndex.value]!)
   const stepId = computed(() => stepKey(instance, step.value))
+  const nextStep = computed(() => steps[stepIndex.value + 1] ?? null)
 
   // Signed reference to this response's Notion row, set by the first save
   // (useResponsePersistence). Lives only in memory: a reload starts a new one.
@@ -67,5 +68,5 @@ export const useSurveyStore = defineStore('survey', () => {
     responseToken.value = null
   }
 
-  return { profiling, answers, email, stepIndex, step, stepId, responseToken, result, progress, finished, next, reset }
+  return { profiling, answers, email, stepIndex, step, stepId, nextStep, responseToken, result, progress, finished, next, reset }
 })

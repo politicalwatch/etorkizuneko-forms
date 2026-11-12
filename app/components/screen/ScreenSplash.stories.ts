@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@nuxtjs/storybook'
 import { useSurveyStore } from '../../stores/survey'
 import ScreenSplash from './ScreenSplash.vue'
 
-// On the page it moves on after 2.5s; here that only advances the store
+// On the page, scrolling or the hint button moves on; here nothing does
 const meta = {
   title: 'Screens/Splash',
   component: ScreenSplash,
