@@ -2,15 +2,18 @@ import { Client } from '@notionhq/client'
 import type { CreatePageParameters, UpdateDataSourceParameters } from '@notionhq/client'
 import type { InstanceDefinition } from '#shared/survey/instance'
 import { resolveProfile } from '#shared/survey/scoring'
+import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#shared/survey/steps'
 
 /*
  * Responses are stored one row per person in a Notion data source (a table).
  * Column names are built from the stable ids of the instance definition and
  * select options are the option ids, so the table can be analysed without
- * the i18n texts drifting under it. Profiling columns are prefixed `p_`
- * (`p_age`) and questions with their 1-based world and question position
- * (`w1q2_wantCareer`), so they group and sort together in Notion. Moving a
- * question therefore renames its column (see ensureColumns).
+ * the i18n texts drifting under it. Profiling and question columns are
+ * named like their step (`profiling.age`, `question.w1q2_wantCareer`, see
+ * shared/survey/steps.ts), so the `step` value of a row names the column
+ * where it stopped. Moving a question therefore renames its column (see
+ * ensureColumns). The `step` options are listed in flow order, so grouping
+ * or sorting by step in Notion reads as a drop-off funnel.
  *
  * Whenever columns are added, the table views are also laid out in the
  * definition order (title first, columns not defined here last), so new
@@ -39,9 +42,10 @@ const options = (values: readonly string[]) => values.map(name => ({ name }))
 
 function buildColumns(instance: InstanceDefinition): Column[] {
   const questionIds = instance.worlds.flatMap(world => world.questions)
+  const savedSteps = buildSteps(instance).filter(isSavedStep).map(step => stepKey(instance, step))
 
   const profiling = instance.profiling.map((field): Column => {
-    const name = `p_${field.id}`
+    const name = profilingKey(field.id)
     const read = (response: SurveyResponse) => response.profiling[field.id]
     switch (field.kind) {
       case 'number':
@@ -80,7 +84,7 @@ function buildColumns(instance: InstanceDefinition): Column[] {
 
   const questions = instance.worlds.flatMap((world, worldIndex) =>
     world.questions.map((id, questionIndex): Column => ({
-      name: `w${worldIndex + 1}q${questionIndex + 1}_${id}`,
+      name: questionKey(worldIndex, questionIndex, id),
       type: 'number',
       schema: { number: { format: 'number' } },
       value: response => ({ number: response.answers[id] ?? null })
@@ -108,7 +112,7 @@ function buildColumns(instance: InstanceDefinition): Column[] {
     {
       name: 'step',
       type: 'select',
-      schema: { select: {} },
+      schema: { select: { options: options(savedSteps) } },
       value: response => select(response.step)
     },
     ...profiling,

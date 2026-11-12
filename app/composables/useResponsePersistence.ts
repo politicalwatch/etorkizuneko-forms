@@ -1,3 +1,5 @@
+import { isSavedStep } from '#shared/survey/steps'
+
 /**
  * Saves the response to Notion as the person goes, so unfinished responses
  * are kept too. Every step change sends the whole snapshot: the first one
@@ -51,12 +53,7 @@ export function useResponsePersistence() {
     }
   }
 
-  // Nothing to save until the first profiling answer
-  const hasStarted = computed(() =>
-    store.step.kind !== 'intro' && !(store.step.kind === 'profiling' && store.step.fieldIndex === 0)
-  )
-
   watch(() => store.stepIndex, () => {
-    if (hasStarted.value) save()
+    if (isSavedStep(store.step)) save()
   })
 }

@@ -79,9 +79,9 @@ Responses are saved as people go through the survey, so unfinished ones are kept
 
 The columns are created on the first save, from the instance definition:
 
-- `createdAt`, `updatedAt`, `instance`, `locale`, and `step` (how far the person got)
-- profiling answers prefixed `p_` (`p_age`, `p_diversity`…)
-- question answers prefixed with their world and question position (`w1q1_likelyJob`…)
+- `createdAt`, `updatedAt`, `instance`, `locale`, and `step` (the screen the person was on at their last save; its options are in flow order, so grouping or sorting by it shows where people drop off)
+- profiling answers prefixed `profiling.` (`profiling.age`, `profiling.diversity`…)
+- question answers prefixed `question.` and their world and question position (`question.w1q1_likelyJob`…)
 - `result` (only once every question is answered) and `email` (optional)
 
 When columns are added, the table views are also put in this order. Existing columns are never renamed or removed. Columns you hide or resize keep those settings, and columns you add yourself go at the end.

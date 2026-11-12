@@ -39,19 +39,40 @@ export function buildSteps(instance: InstanceDefinition): Step[] {
   return steps
 }
 
+/** Key of a profiling field: its step and its Notion column (`profiling.age`). */
+export const profilingKey = (fieldId: string) => `profiling.${fieldId}`
+
 /**
- * Stable, readable id of a step (`profiling.age`, `question.fun`, `result`…).
- * Persisted as how far a response got, so keep it in sync with the ids.
+ * Key of a question, with its 1-based world and question position
+ * (`question.w1q3_goodSalary`): its step and its Notion column. Moving a
+ * question therefore changes its key.
+ */
+export const questionKey = (worldIndex: number, questionIndex: number, questionId: string) =>
+  `question.w${worldIndex + 1}q${questionIndex + 1}_${questionId}`
+
+/**
+ * Stable, readable id of a step (`profiling.age`, `question.w1q1_fun`,
+ * `splash.before`, `result`…). Persisted as how far a response got; profiling
+ * and question steps match their Notion column, so the column where a
+ * response stopped can be found by name.
  */
 export function stepKey(instance: InstanceDefinition, step: Step): string {
   switch (step.kind) {
     case 'profiling':
-      return `profiling.${instance.profiling[step.fieldIndex]!.id}`
+      return profilingKey(instance.profiling[step.fieldIndex]!.id)
     case 'splash':
       return `splash.${step.position}`
     case 'question':
-      return `question.${instance.worlds[step.worldIndex]!.questions[step.questionIndex]!}`
+      return questionKey(step.worldIndex, step.questionIndex, instance.worlds[step.worldIndex]!.questions[step.questionIndex]!)
     default:
       return step.kind
   }
+}
+
+/**
+ * Whether a response is saved on reaching this step: nothing is saved until
+ * the first profiling answer, i.e. before leaving the first profiling step.
+ */
+export function isSavedStep(step: Step): boolean {
+  return step.kind !== 'intro' && !(step.kind === 'profiling' && step.fieldIndex === 0)
 }
