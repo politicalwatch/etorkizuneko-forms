@@ -27,10 +27,10 @@ const meta = {
       useSurveyStore().reset()
       return { args }
     },
-    // Keyed: the screen reads its field once, like on the page
+    // Not keyed, like on the page: changing the field plays the transition
     template: `
       <div class="flex min-h-[calc(100vh-4rem)] flex-col">
-        <ScreenProfiling :key="args.fieldIndex" v-bind="args" />
+        <ScreenProfiling v-bind="args" />
       </div>
     `
   })

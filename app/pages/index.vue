@@ -4,9 +4,13 @@ import type { Step } from '#shared/survey/steps'
 /*
  * The whole experience lives on this page: it renders the screen for the
  * current step of the survey store. Each screen is keyed by the step index so
- * it remounts per step (fresh local state, and a clean hook for transitions).
+ * it remounts per step (fresh local state, and a clean hook for transitions),
+ * except the profiling one: it stays across its fields and swaps only the
+ * field itself (TransitionElevator).
  */
 const store = useSurveyStore()
+
+const screenKey = computed(() => store.step.kind === 'profiling' ? 'profiling' : store.stepIndex)
 
 useResponsePersistence()
 
@@ -40,18 +44,21 @@ const fadeSurface = computed(() => store.step.kind === 'splash')
 
 // Move focus into the new screen so keyboard and screen reader users land on
 // it: its main field if it has one, else its heading. Skipped on first load.
+// Content still on its way out is inert: skip it.
 const main = useTemplateRef<HTMLElement>('main')
+const find = (selector: string) =>
+  [...main.value?.querySelectorAll<HTMLElement>(selector) ?? []].find(el => !el.closest('[inert]'))
 watch(() => store.stepIndex, async () => {
   await nextTick()
-  const target = main.value?.querySelector<HTMLElement>('[data-autofocus]')
-    ?? main.value?.querySelector<HTMLElement>('h1')
+  const target = find('[data-autofocus]') ?? find('h1')
   target?.focus()
 })
 </script>
 
 <template>
+  <!-- Clipped: content moving in from below mustn't add a scrollbar meanwhile -->
   <div
-    class="relative flex min-h-dvh flex-col"
+    class="relative flex min-h-dvh flex-col overflow-clip"
     :class="[surfaceOf(store.step), { 'transition-colors duration-500': fadeSurface }]"
   >
     <AppHeader class="relative z-20" />
@@ -61,7 +68,7 @@ watch(() => store.stepIndex, async () => {
       :class="screenClass"
     >
       <ScreenStep
-        :key="store.stepIndex"
+        :key="screenKey"
         :step="store.step"
         @continue="advance"
       />
