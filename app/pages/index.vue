@@ -5,15 +5,15 @@ import type { Step } from '#shared/survey/steps'
  * The whole experience lives on this page: it renders the screen for the
  * current step of the survey store. Each screen is keyed by the step index so
  * it remounts per step (fresh local state, and a clean hook for transitions),
- * except the profiling screen and each world's: they stay across their
- * fields / questions and swap only those (TransitionElevator).
+ * except the profiling and worlds screens: they stay across their fields /
+ * questions and swap only what changes (TransitionElevator, TransitionDoor).
  */
 const store = useSurveyStore()
 
 const screenKey = computed(() => {
   const step = store.step
   if (step.kind === 'profiling') return 'profiling'
-  if (step.kind === 'question') return `world-${step.worldIndex}`
+  if (step.kind === 'question') return 'worlds'
   return store.stepIndex
 })
 

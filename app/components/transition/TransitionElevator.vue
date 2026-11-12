@@ -15,8 +15,7 @@ const ENTER_DISTANCE = '30vh'
 const LEAVE_DISTANCE = '-8vh'
 const BLUR = 'blur(10px)'
 
-const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-const motion = (y: string) => (reducedMotion() ? {} : { y, filter: BLUR })
+const motion = (y: string) => (prefersReducedMotion() ? {} : { y, filter: BLUR })
 
 function onEnter(el: Element, done: () => void) {
   gsap.from(el, {
@@ -32,16 +31,8 @@ function onEnter(el: Element, done: () => void) {
 }
 
 function onLeave(el: Element, done: () => void) {
-  const element = el as HTMLElement
-  element.inert = true
-  // Still in the flow here (the next one isn't inserted yet): pin it in place
-  gsap.set(element, {
-    position: 'absolute',
-    top: element.offsetTop,
-    left: element.offsetLeft,
-    width: element.offsetWidth
-  })
-  gsap.to(element, {
+  pinLeaving(el as HTMLElement)
+  gsap.to(el, {
     ...motion(LEAVE_DISTANCE),
     opacity: 0,
     duration: 0.45,
@@ -49,9 +40,6 @@ function onLeave(el: Element, done: () => void) {
     onComplete: done
   })
 }
-
-// Swapped again mid-way: the next tween starts from where this one stopped
-const stop = (el: Element) => gsap.killTweensOf(el)
 </script>
 
 <template>
@@ -59,8 +47,8 @@ const stop = (el: Element) => gsap.killTweensOf(el)
     :css="false"
     @enter="onEnter"
     @leave="onLeave"
-    @enter-cancelled="stop"
-    @leave-cancelled="stop"
+    @enter-cancelled="stopSwap"
+    @leave-cancelled="stopSwap"
   >
     <slot />
   </Transition>
