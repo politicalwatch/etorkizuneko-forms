@@ -7,6 +7,8 @@
  */
 const store = useSurveyStore()
 
+useResponsePersistence()
+
 // Worlds and splash sit on white; everything else on black
 const surface = computed(() =>
   store.step.kind === 'splash' || store.step.kind === 'question' ? 'light' : 'dark'

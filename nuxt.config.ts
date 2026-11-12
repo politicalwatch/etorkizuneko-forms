@@ -58,6 +58,13 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Where responses are saved (server/utils/notion.ts): the integration's
+    // token (NUXT_NOTION_API_KEY) and the table's data source id
+    // (NUXT_NOTION_DATA_SOURCE_ID), set per deployment
+    notion: {
+      apiKey: '',
+      dataSourceId: ''
+    },
     public: {
       instanceName: INSTANCE_NAME,
       // Target of the header "Saber más" button (NUXT_PUBLIC_LEARN_MORE_URL)

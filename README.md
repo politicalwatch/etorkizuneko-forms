@@ -25,7 +25,7 @@ cp .env.example .env   # then fill it in, see below
 | `NUXT_NOTION_API_KEY` | Token of the Notion integration that writes the responses. Secret, server only. |
 | `NUXT_NOTION_DATA_SOURCE_ID` | The Notion table's **data source** id (not the database id). |
 
-Each deployment serves one instance and has its own Notion table.
+Each deployment serves one instance and has its own Notion table, since the questions (and so the columns) differ per instance. Rows still record their `instance`, so a table's origin stays clear.
 
 ## Development
 
