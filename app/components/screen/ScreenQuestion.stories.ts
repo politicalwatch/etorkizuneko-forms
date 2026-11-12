@@ -29,10 +29,10 @@ const meta = {
       useSurveyStore().reset()
       return { args }
     },
-    // Keyed: the screen reads its question once, like on the page
+    // Keyed per world, like on the page: changing the question plays the transition
     template: `
       <div class="flex min-h-[calc(100vh-4rem)] flex-col">
-        <ScreenQuestion :key="args.worldIndex + '-' + args.questionIndex" v-bind="args" />
+        <ScreenQuestion :key="args.worldIndex" v-bind="args" />
       </div>
     `
   })

@@ -1,31 +1,17 @@
 <script setup lang="ts">
-import { SCALE_MAX, SCALE_MIN, SCALE_STEP } from '#shared/survey/scale'
-
-// One world question. Remounted per step (keyed), like the profiling screen.
-const { worldIndex, questionIndex } = defineProps<{
+// A world: its title and shape stay put from one question to the next (the
+// page keeps this mounted through the world); only the question itself
+// changes, with the elevator transition.
+const { worldIndex } = defineProps<{
   worldIndex: number
   questionIndex: number
 }>()
 
 const { t } = useI18n()
-const store = useSurveyStore()
-const { instance, textKey } = useInstance()
+const { instance } = useInstance()
 
-const world = instance.worlds[worldIndex]!
-const questionId = world.questions[questionIndex]!
-const worldNumber = String(worldIndex + 1).padStart(2, '0')
-
-const promptId = useId()
-const statementId = useId()
-const legendId = useId()
-
-const draft = ref<number | null>(store.answers[questionId] ?? null)
-
-function submit() {
-  if (draft.value == null) return
-  store.answers[questionId] = draft.value
-  store.next()
-}
+const world = computed(() => instance.worlds[worldIndex]!)
+const worldNumber = computed(() => String(worldIndex + 1).padStart(2, '0'))
 </script>
 
 <template>
@@ -50,66 +36,23 @@ function submit() {
       class="mx-auto md:order-2"
     />
 
-    <form
-      class="flex flex-col gap-5 md:order-1"
-      @submit.prevent="submit"
-    >
+    <!-- Dots stay (and light up); only the question rises out and the next one in.
+    On desktop the column is centered, so its height must not change with the
+    statement's length or the dots would jump: min-h fits the tallest question
+    (4-line statement in Industria/es) and the spare room stays below the button -->
+    <div class="relative flex flex-col gap-5 md:order-1 md:min-h-113">
       <QuestionDots
         :total="world.questions.length"
         :current="questionIndex"
       />
 
-      <div class="flex flex-col gap-2">
-        <p
-          :id="promptId"
-          class="text-sm font-semibold text-brand-500 max-md:sr-only md:text-base md:font-bold"
-        >
-          {{ t('worlds.prompt') }}
-        </p>
-        <p
-          :id="statementId"
-          class="text-2xl leading-snug md:text-xl md:leading-[1.2] md:font-light"
-        >
-          “{{ t(textKey(`questions.${questionId}`)) }}”
-        </p>
-      </div>
-
-      <!-- Legend above the dial on mobile, below on desktop -->
-      <div class="flex flex-col gap-6 md:flex-col-reverse">
-        <p
-          :id="legendId"
-          class="text-sm md:leading-[1.2] md:font-light"
-        >
-          <!-- DM Sans as loaded lacks "→": an icon instead, silent for screen readers -->
-          {{ SCALE_MIN }} <UIcon
-            name="i-lucide-arrow-right"
-            class="align-[-0.125em]"
-          /> {{ t('worlds.scale.min') }}<br>
-          {{ SCALE_MAX }} <UIcon
-            name="i-lucide-arrow-right"
-            class="align-[-0.125em]"
-          /> {{ t('worlds.scale.max') }}
-        </p>
-
-        <FormRangeSlider
-          v-model="draft"
-          :min="SCALE_MIN"
-          :max="SCALE_MAX"
-          :step="SCALE_STEP"
-          :aria-labelledby="`${promptId} ${statementId}`"
-          :aria-describedby="legendId"
-          data-autofocus
-          class="mx-auto md:mx-0"
+      <TransitionElevator>
+        <QuestionField
+          :key="questionIndex"
+          :world-index="worldIndex"
+          :question-index="questionIndex"
         />
-      </div>
-
-      <UButton
-        type="submit"
-        :label="t('app.next')"
-        :disabled="draft == null"
-        size="xl"
-        class="w-full md:w-32"
-      />
-    </form>
+      </TransitionElevator>
+    </div>
   </section>
 </template>

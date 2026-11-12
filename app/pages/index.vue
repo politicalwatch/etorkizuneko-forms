@@ -5,12 +5,17 @@ import type { Step } from '#shared/survey/steps'
  * The whole experience lives on this page: it renders the screen for the
  * current step of the survey store. Each screen is keyed by the step index so
  * it remounts per step (fresh local state, and a clean hook for transitions),
- * except the profiling one: it stays across its fields and swaps only the
- * field itself (TransitionElevator).
+ * except the profiling screen and each world's: they stay across their
+ * fields / questions and swap only those (TransitionElevator).
  */
 const store = useSurveyStore()
 
-const screenKey = computed(() => store.step.kind === 'profiling' ? 'profiling' : store.stepIndex)
+const screenKey = computed(() => {
+  const step = store.step
+  if (step.kind === 'profiling') return 'profiling'
+  if (step.kind === 'question') return `world-${step.worldIndex}`
+  return store.stepIndex
+})
 
 useResponsePersistence()
 
@@ -42,6 +47,9 @@ const { advance } = useScrollAdvance(cover, () => store.next())
 // already brought the new color in
 const fadeSurface = computed(() => store.step.kind === 'splash')
 
+// The page clips its overflow: content moving in from below mustn't add a
+// scrollbar meanwhile
+
 // Move focus into the new screen so keyboard and screen reader users land on
 // it: its main field if it has one, else its heading. Skipped on first load.
 // Content still on its way out is inert: skip it.
@@ -56,7 +64,6 @@ watch(() => store.stepIndex, async () => {
 </script>
 
 <template>
-  <!-- Clipped: content moving in from below mustn't add a scrollbar meanwhile -->
   <div
     class="relative flex min-h-dvh flex-col overflow-clip"
     :class="[surfaceOf(store.step), { 'transition-colors duration-500': fadeSurface }]"
