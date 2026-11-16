@@ -1,0 +1,59 @@
+{
+  "instances": {
+    "industria": {
+      "title": "Industria",
+      "description": "Erantzun galdera txiki handi hauei, eta aurkitu ezazu zer profil egokitzen den gehien zurekin eta zer paper izan zenezakeen etorkizuneko industrian.",
+      "topic": "[Industria]",
+      "intro": {
+        "subtitle": "Eta zuk, zer ekarpen egin diezaiokezu etorkizuneko industriari?",
+        "body": "Erantzun galdera txiki handi hauei, eta aurkitu ezazu zer profil egokitzen den gehien zurekin eta zer paper izan zenezakeen etorkizuneko industrian."
+      },
+      "shareText": "Nire profila etorkizuneko industrian: {profile}. Zein da zurea?",
+      "questions": {
+        "likelyJob": "Litekeena da euskal industrian lan bat izatea.",
+        "wantCareer": "Nire lan-bizitza euskal industrian garatu nahi dut.",
+        "goodSalary": "Industria sektorean lan egingo banu soldata on bat izango nuke.",
+        "stableJob": "Industria sektorean lan egingo banu lan egonkorra izango nuke, mailaz igotzeko aukerarekin.",
+        "fun": "Industria sektorean lan egingo banu, nire lanean ondo pasako nuke.",
+        "creative": "Euskal industrian sortzailea izateko aukera dago.",
+        "informed": "Euskal industriaren barruan dauden lan aukeren berri daukat.",
+        "basqueRequired": "Sektorean lanpostu bat lortzeko derrigorrezkoa da Euskaraz jakitea.",
+        "meritOnly": "Industrian lanpostu bat lortzeko merituak eta gaitasunak bakarrik dira garrantzitsuak, kontaktuek garrantzi gutxi dute.",
+        "manualOnly": "Esku-langile eta teknikari espezialistek bakarrik egin dezakete lan euskal industrian.",
+        "socialSciences": "Gizarte zientziei lotutako karrerek ez dute lekurik euskal industrian.",
+        "masculine": "Euskal industria oso mundu maskulinoa da.",
+        "localOwners": "Euskadiko industria-enpresen jabeak gure herrialdekoak dira.",
+        "modern": "Euskal industria oso modernoa da eta azken aurrerapen teknologikoekin funtzionatzen du.",
+        "wellbeing": "Euskal industrian gure ongizatea hobetzen duten produktuak egiten dira.",
+        "pollution": "Euskal industria da Euskadiko kutsaduraren zati handi baten erantzulea.",
+        "innovation": "Euskal industria eta bere ikerketa pertsonen bizitza hobetzen duten berrikuntzen iturri dira."
+      },
+      "profiles": {
+        "imagina": {
+          "name": "Irudikatu",
+          "headline": "Industrian sortzeko espazio bat ikusten duzu.",
+          "body": "Industria produktuak fabrikatzea baino askoz gehiago izan daitekeela uste duzu. Ideiak esploratzeko, zure sormena garatzeko eta gauzak egiteko modu berriak aurkitzeko toki gisa irudikatzen duzu.",
+          "gaze": "Zure begiradak industria sormenarekin eta etorkizuneko aukerekin lotzen du."
+        },
+        "proyecta": {
+          "name": "Proiektatu",
+          "headline": "Zure etorkizuna eraikitzeko lekua ikusten duzu industrian.",
+          "body": "Zuretzat, industria garapen profesionalerako aukera bat da. Enplegu egonkorra aurkitzeko, hazteko eta bizitza-proiektu bat eraikitzeko aukerak baloratzen dituzu.",
+          "gaze": "Zure begiradak industria aukerekin eta egonkortasunarekin lotzen du."
+        },
+        "innova": {
+          "name": "Eraberritu",
+          "headline": "Aukera berrien motorra ikusten duzu industrian.",
+          "body": "Industria teknologiarekin, ikerketarekin eta gure ingurunea eraldatzen duten aurrerapenekin lotzen duzu. Zure ustez, industriaren etorkizuna, oraindik imajinatzen hasiak garen soluzioak garatzetik pasatzen da.",
+          "gaze": "Zure begiradak industria ezagutzarekin eta berrikuntza teknologikoarekin lotzen du."
+        },
+        "transforma": {
+          "name": "Eraldatu",
+          "headline": "Gizartea hobetzeko tresna bat ikusten duzu industrian.",
+          "body": "Ongizatea sortzeko eta gure bizitzak hobetzen dituzten berrikuntzak garatzeko duen gaitasuna aitortzen duzu. Zuretzat, industriaren balioa pertsonei egiten dien ekarpenean ere badago.",
+          "gaze": "Zure begiradak industria ongizatearekin eta inpaktu sozialarekin lotzen du."
+        }
+      }
+    }
+  }
+}

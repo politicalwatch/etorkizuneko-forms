@@ -1,1 +1,95 @@
-{}
+{
+  "app": {
+    "tagline": "Euskal gazteen etorkizuna irudikatzen",
+    "learnMore": "Gehiago jakin",
+    "close": "Itxi",
+    "language": "Hizkuntza",
+    "next": "Hurrengoa",
+    "progress": "Aurrerapena"
+  },
+  "intro": {
+    "cta": "Ezagutu zure profila"
+  },
+  "splash": {
+    "title": "Euskal gazteen etorkizuna irudikatzen",
+    "scrollHint": "Irristatu jarraitzeko"
+  },
+  "profiling": {
+    "title": "Hasierako profilaketa",
+    "selectPlaceholder": "Aukeratu...",
+    "fields": {
+      "age": "Adina",
+      "gender": "Generoa",
+      "postalCode": "Posta-kodea",
+      "diversity": "Aniztasuna",
+      "education": "Ikasketa-maila",
+      "occupation": "Egungo egoera",
+      "fieldOfStudy": "Ikasketa-arloa"
+    },
+    "options": {
+      "gender": {
+        "male": "Gizonezkoa",
+        "female": "Emakumezkoa",
+        "nonBinary": "Ez-bitarra",
+        "undisclosed": "Nahiago dut ez esan"
+      },
+      "diversity": {
+        "lgtbiq": "LGTBIQ+",
+        "racialized": "Pertsona arrazializatua",
+        "functionalDiversity": "Aniztasun funtzionala duen pertsona",
+        "otherMinority": "Gutxiengotutako beste kolektibo bateko pertsona",
+        "none": "Aurrekoetako bat ere ez"
+      },
+      "education": {
+        "eso": "DBH edo beheragokoa",
+        "bachillerato": "Batxilergoa",
+        "gradoMedio": "Erdi-mailako heziketa-zikloa",
+        "gradoSuperior": "Goi-mailako heziketa-zikloa",
+        "university": "Unibertsitate-gradua",
+        "master": "Masterra edo graduondokoa",
+        "other": "Beste batzuk"
+      },
+      "occupation": {
+        "studying": "Ikasten ari naiz",
+        "working": "Lanean ari naiz",
+        "studyingAndWorking": "Ikasten eta lanean ari naiz",
+        "jobSeeking": "Lan bila nabil",
+        "other": "Beste bat"
+      },
+      "fieldOfStudy": {
+        "engineering": "Ingeniaritza, industria eta fabrikazioa",
+        "technology": "Teknologia, informatika eta digitalizazioa",
+        "naturalSciences": "Natura-zientziak, fisika eta kimika",
+        "health": "Osasuna eta bizi-zientziak",
+        "business": "Ekonomia, enpresa eta kudeaketa",
+        "socialSciences": "Zuzenbidea, politika eta gizarte-zientziak",
+        "humanities": "Humanitateak, komunikazioa eta hezkuntza",
+        "arts": "Artea, diseinua eta sormena",
+        "other": "Beste arlo batzuk"
+      }
+    }
+  },
+  "worlds": {
+    "title": "{number}. mundua",
+    "prompt": "Zenbateraino zaude ados honako esaldi honekin?",
+    "questionOf": "{current}. galdera, guztira {total}",
+    "scale": {
+      "min": "Batere ez",
+      "max": "Erabat"
+    }
+  },
+  "result": {
+    "eyebrow": "Zure profila",
+    "share": "Partekatu",
+    "linkCopied": "Esteka kopiatuta"
+  },
+  "thanks": {
+    "title": "Eskerrik asko!",
+    "body": "Esperientzian parte hartu eta {amount}-ko beka bat eskuratzeko aukera izan nahi baduzu, utzi zure helbide elektronikoa eta zurekin harremanetan jarriko gara! :)",
+    "amount": "100 €",
+    "emailLabel": "Helbide elektronikoa",
+    "emailPlaceholder": "izena{'@'}adibidea.com",
+    "submit": "Bidali",
+    "skip": "Ez, eskerrik asko"
+  }
+}

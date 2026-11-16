@@ -1,0 +1,59 @@
+{
+  "instances": {
+    "industria": {
+      "title": "Industry",
+      "description": "Answer these small but important questions to discover which profile suits you best and what role you could play in the industry of the future.",
+      "topic": "[Industry]",
+      "intro": {
+        "subtitle": "What could you bring to the industry of the future?",
+        "body": "Answer these small but important questions to discover which profile suits you best and what role you could play in the industry of the future."
+      },
+      "shareText": "My profile in the industry of the future: {profile}. What's yours?",
+      "questions": {
+        "likelyJob": "I'm likely to end up working in Basque industry.",
+        "wantCareer": "I want to build my career in Basque industry.",
+        "goodSalary": "If I worked in the industrial sector, I would earn a good salary.",
+        "stableJob": "If I worked in the industrial sector, I would have a stable job with opportunities for career progression.",
+        "fun": "If I worked in the industrial sector, I would enjoy my job.",
+        "creative": "Basque industry is a sector where I could be creative.",
+        "informed": "I know what career opportunities are available in Basque industry.",
+        "basqueRequired": "Speaking Basque is a requirement for getting a job in the sector.",
+        "meritOnly": "Getting a job in industry depends only on your skills and achievements; who you know doesn't matter.",
+        "manualOnly": "Only manual workers and specialised technicians can work in Basque industry.",
+        "socialSciences": "There is no place for people with social sciences degrees in Basque industry.",
+        "masculine": "Basque industry is a very male-dominated sector.",
+        "localOwners": "The owners of industrial companies in the Basque Country are from the Basque Country.",
+        "modern": "Basque industry is very modern and uses the latest technologies.",
+        "wellbeing": "Basque industry produces goods that improve our well-being.",
+        "pollution": "Basque industry is responsible for a large share of pollution in the Basque Country.",
+        "innovation": "Basque industry and its research drive innovations that improve people's lives."
+      },
+      "profiles": {
+        "imagina": {
+          "name": "Imagine",
+          "headline": "You see industry as a space for creativity.",
+          "body": "You believe industry can be about much more than manufacturing products. You see it as a place to explore ideas, develop your creativity and find new ways of doing things.",
+          "gaze": "Your perspective connects industry with creativity and future possibilities."
+        },
+        "proyecta": {
+          "name": "Envision",
+          "headline": "You see industry as a place to build your future.",
+          "body": "For you, industry offers opportunities for professional development. You value the chance to find a stable job, grow in your career and build a life for yourself.",
+          "gaze": "Your perspective connects industry with opportunity and stability."
+        },
+        "innova": {
+          "name": "Innovate",
+          "headline": "You see industry as a driving force for new possibilities.",
+          "body": "You associate industry with technology, research and advances that transform the world around us. For you, its future lies in developing solutions we are only just beginning to imagine.",
+          "gaze": "Your perspective connects industry with knowledge and technological innovation."
+        },
+        "transforma": {
+          "name": "Transform",
+          "headline": "You see industry as a way to improve society.",
+          "body": "You recognise its ability to improve well-being and develop innovations that make our lives better. For you, the value of industry also lies in what it contributes to people's lives.",
+          "gaze": "Your perspective connects industry with well-being and social impact."
+        }
+      }
+    }
+  }
+}
