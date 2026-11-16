@@ -16,7 +16,11 @@
         "p3": "Porque no hay una única forma de formar parte de la industria. Todas las miradas tienen algo que aportar a su futuro.",
         "p4": "Esta experiencia forma parte de Agertokiak · Industria, una iniciativa que busca incorporar la mirada joven al futuro industrial de Euskadi."
       },
-      "shareText": "Mi perfil en la industria del futuro: {profile}. ¿Y el tuyo?",
+      "share": {
+        "question": "¿Y tú, qué perfil tienes dentro de la industria? 👀",
+        "description": "Responde a unas pequeñas grandes preguntas y descubre cuál de los cuatro perfiles conecta más contigo.",
+        "message": "¿Y tú, qué perfil tienes dentro de la industria? 👀\nResponde a unas pequeñas grandes preguntas y descubre cuál de los cuatro perfiles conecta más contigo.\n¡Descubre el tuyo! 🚀\n👉 {link}"
+      },
       "questions": {
         "likelyJob": "Es probable que acabe teniendo un trabajo en la industria vasca.",
         "wantCareer": "Deseo desarrollar mi vida laboral en la industria vasca.",

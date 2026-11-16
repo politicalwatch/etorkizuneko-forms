@@ -16,7 +16,11 @@
         "p3": "Izan ere, ez dago industrian parte hartzeko modu bakarra. Ikuspegi guztiek dute zer ekarria industriaren etorkizunari.",
         "p4": "Esperientzia hau Agertokiak · Industria proiektuaren parte da. Ekimen honen helburua Euskadiko industriaren etorkizuna eraikitzeko gazteen ikuspegia txertatzea da."
       },
-      "shareText": "Nire profila etorkizuneko industrian: {profile}. Zein da zurea?",
+      "share": {
+        "question": "Eta zuk, zer profil duzu industriaren barruan? 👀",
+        "description": "Erantzun galdera txiki hauei, eta ezagutu lau profiletatik zein datorren bat gehien zure ikuspegiarekin.",
+        "message": "Eta zuk, zer profil duzu industriaren barruan? 👀\nErantzun galdera txiki hauei, eta ezagutu lau profiletatik zein datorren bat gehien zure ikuspegiarekin.\nAnimatu eta ezagutu zurea! 🚀\n👉 {link}"
+      },
       "questions": {
         "likelyJob": "Litekeena da euskal industrian lan bat izatea.",
         "wantCareer": "Nire lan-bizitza euskal industrian garatu nahi dut.",

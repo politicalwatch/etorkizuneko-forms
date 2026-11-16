@@ -16,7 +16,11 @@
         "p3": "Because there's no single way to be part of industry. Every perspective has something to contribute to its future.",
         "p4": "This experience is part of Agertokiak · Industria, an initiative that aims to bring young people's perspectives into the future of industry in the Basque Country."
       },
-      "shareText": "My profile in the industry of the future: {profile}. What's yours?",
+      "share": {
+        "question": "And you, what's your profile in the world of industry? 👀",
+        "description": "Answer a few quick questions and discover which of the four profiles best matches your perspective.",
+        "message": "And you, what's your profile in the world of industry? 👀\nAnswer a few quick questions and discover which of the four profiles best matches your perspective.\nFind out yours! 🚀\n👉 {link}"
+      },
       "questions": {
         "likelyJob": "I'm likely to end up working in Basque industry.",
         "wantCareer": "I want to build my career in Basque industry.",

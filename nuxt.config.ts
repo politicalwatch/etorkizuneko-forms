@@ -72,6 +72,14 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-06-30',
 
+  // Dev only: allow Cloudflare quick tunnels (`npx cloudflared tunnel --url
+  // http://localhost:3000`), to test sharing on a phone over HTTPS
+  vite: {
+    server: {
+      allowedHosts: ['.trycloudflare.com']
+    }
+  },
+
   eslint: {
     config: {
       stylistic: {

@@ -24,6 +24,8 @@ export interface ScoredQuestion {
 export interface ResultProfile {
   id: string
   questions: readonly ScoredQuestion[]
+  // Name of its share card images: public/share/Card_profile_<card>_<locale>.jpg
+  card: string
 }
 
 export interface InstanceDefinition {
@@ -45,6 +47,7 @@ export function defineInstance<const W extends readonly World[]>(instance: {
   profiles: readonly {
     id: string
     questions: readonly { id: W[number]['questions'][number], inverted?: boolean }[]
+    card: string
   }[]
 }): InstanceDefinition {
   return instance

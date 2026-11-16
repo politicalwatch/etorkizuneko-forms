@@ -30,11 +30,12 @@ export default defineInstance({
     }
   ],
 
-  // Two answers per profile, so each scores 2–10
+  // Two answers per profile, so each scores 2–10. `card`: file name of its
+  // share images (public/share/Card_profile_<card>_<locale>.jpg)
   profiles: [
-    { id: 'imagina', questions: [{ id: 'creative' }, { id: 'fun' }] },
-    { id: 'proyecta', questions: [{ id: 'wantCareer' }, { id: 'stableJob' }] },
-    { id: 'innova', questions: [{ id: 'modern' }, { id: 'innovation' }] },
-    { id: 'transforma', questions: [{ id: 'wellbeing' }, { id: 'socialSciences', inverted: true }] }
+    { id: 'imagina', questions: [{ id: 'creative' }, { id: 'fun' }], card: 'Imagine' },
+    { id: 'proyecta', questions: [{ id: 'wantCareer' }, { id: 'stableJob' }], card: 'Envision' },
+    { id: 'innova', questions: [{ id: 'modern' }, { id: 'innovation' }], card: 'Innovate' },
+    { id: 'transforma', questions: [{ id: 'wellbeing' }, { id: 'socialSciences', inverted: true }], card: 'Transform' }
   ]
 })

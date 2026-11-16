@@ -84,7 +84,8 @@
   },
   "result": {
     "eyebrow": "Your profile",
-    "share": "Share",
+    "copyLink": "Copy link",
+    "whatsapp": "Share on WhatsApp",
     "linkCopied": "Link copied"
   },
   "thanks": {
