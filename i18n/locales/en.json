@@ -7,6 +7,10 @@
     "next": "Next",
     "progress": "Progress"
   },
+  "about": {
+    "cta": "Discover the project",
+    "logos": "Agertokiak, Etorkizuneko Foroa and Basque Government"
+  },
   "intro": {
     "cta": "Discover your profile"
   },

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { learnMoreUrl } = useRuntimeConfig().public
+
+const aboutOpen = ref(false)
 </script>
 
 <template>
@@ -8,15 +9,15 @@ const { learnMoreUrl } = useRuntimeConfig().public
     <AppLogo />
 
     <div class="flex items-center gap-1.5">
-      <!-- Hidden until NUXT_PUBLIC_LEARN_MORE_URL is configured -->
       <UButton
-        v-if="learnMoreUrl"
-        :to="learnMoreUrl"
-        target="_blank"
         :label="t('app.learnMore')"
         variant="surface"
+        aria-haspopup="dialog"
+        @click="aboutOpen = true"
       />
       <AppLocaleSwitcher />
     </div>
+
+    <AppAbout v-model:open="aboutOpen" />
   </header>
 </template>

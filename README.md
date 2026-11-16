@@ -21,7 +21,6 @@ cp .env.example .env   # then fill it in, see below
 | Variable | Description |
 | --- | --- |
 | `NUXT_PUBLIC_INSTANCE_NAME` | Thematic instance this deployment serves, one of `shared/instances` (`industria`). |
-| `NUXT_PUBLIC_LEARN_MORE_URL` | Target of the header "Saber más" button; the button is hidden while empty. |
 | `NUXT_NOTION_API_KEY` | Token of the Notion integration that writes the responses. Secret, server only. |
 | `NUXT_NOTION_DATA_SOURCE_ID` | The Notion table's **data source** id (not the database id). |
 

@@ -66,9 +66,7 @@ export default defineNuxtConfig({
       dataSourceId: ''
     },
     public: {
-      instanceName: INSTANCE_NAME,
-      // Target of the header "Saber más" button (NUXT_PUBLIC_LEARN_MORE_URL)
-      learnMoreUrl: ''
+      instanceName: INSTANCE_NAME
     }
   },
 

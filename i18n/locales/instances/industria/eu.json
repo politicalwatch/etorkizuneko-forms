@@ -8,6 +8,14 @@
         "subtitle": "Eta zuk, zer ekarpen egin diezaiokezu etorkizuneko industriari?",
         "body": "Erantzun galdera txiki handi hauei, eta aurkitu ezazu zer profil egokitzen den gehien zurekin eta zer paper izan zenezakeen etorkizuneko industrian."
       },
+      "about": {
+        "title": "Zein da zure lekua industrian?",
+        "p1": "Etorkizuneko industriak pentsatzeko, sortzeko eta gauzak egiteko modu desberdinak behar ditu. Galdetegi honen bidez, zurea zein den ezagutuko duzu.",
+        "p2": "Galdera txiki bezain handi hauen bidez, {focus} aztertuko dugu. Zure erantzunen arabera, zure ikuspegiarekin bat gehien egiten duen lau profiletako bat ezagutuko duzu: {profiles}.",
+        "focus": "industria nola ikusten duzun eta bertan zer eginkizun izan dezakezun",
+        "p3": "Izan ere, ez dago industrian parte hartzeko modu bakarra. Ikuspegi guztiek dute zer ekarria industriaren etorkizunari.",
+        "p4": "Esperientzia hau Agertokiak · Industria proiektuaren parte da. Ekimen honen helburua Euskadiko industriaren etorkizuna eraikitzeko gazteen ikuspegia txertatzea da."
+      },
       "shareText": "Nire profila etorkizuneko industrian: {profile}. Zein da zurea?",
       "questions": {
         "likelyJob": "Litekeena da euskal industrian lan bat izatea.",

@@ -14,9 +14,12 @@ withDefaults(defineProps<{
   closable?: boolean
   // Allow closing with Esc / click outside
   dismissible?: boolean
+  // Card width: md for the result/thanks steps, lg for the longer "Saber más" text
+  size?: 'md' | 'lg'
 }>(), {
   closable: false,
-  dismissible: true
+  dismissible: true,
+  size: 'md'
 })
 
 const { t } = useI18n()
@@ -29,7 +32,10 @@ const { t } = useI18n()
     :dismissible="dismissible"
     :ui="{
       overlay: 'bg-ink/40',
-      content: 'surface-light bg-paper text-ink w-[calc(100vw-2rem)] max-w-md divide-y-0 rounded-[2rem] shadow-[0_0_28px_rgba(255,255,255,0.45)] ring-0'
+      content: [
+        'surface-light bg-paper text-ink w-[calc(100vw-2rem)] divide-y-0 rounded-[2rem] shadow-[0_0_28px_rgba(255,255,255,0.45)] ring-0',
+        size === 'lg' ? 'max-w-xl' : 'max-w-md'
+      ]
     }"
   >
     <template #content="{ close }">

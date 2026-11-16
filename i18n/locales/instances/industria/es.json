@@ -8,6 +8,14 @@
         "subtitle": "Y tú, ¿qué puedes aportar a la industria del futuro?",
         "body": "Responde a estas pequeñas grandes preguntas y descubre qué perfil encaja más contigo y qué papel podrías tener en la industria del futuro."
       },
+      "about": {
+        "title": "¿Cuál es tu lugar en la industria?",
+        "p1": "La industria del futuro necesita diferentes formas de pensar, crear y hacer las cosas. Mediante esta encuesta podrás descubrir cuál es la tuya.",
+        "p2": "A través de estas pequeñas grandes preguntas, exploraremos {focus} En función de tus respuestas, descubrirás cuál de los cuatro perfiles conecta más con tu mirada: {profiles}.",
+        "focus": "cómo percibes la industria y qué papel podrías jugar dentro de ella.",
+        "p3": "Porque no hay una única forma de formar parte de la industria. Todas las miradas tienen algo que aportar a su futuro.",
+        "p4": "Esta experiencia forma parte de Agertokiak · Industria, una iniciativa que busca incorporar la mirada joven al futuro industrial de Euskadi."
+      },
       "shareText": "Mi perfil en la industria del futuro: {profile}. ¿Y el tuyo?",
       "questions": {
         "likelyJob": "Es probable que acabe teniendo un trabajo en la industria vasca.",
