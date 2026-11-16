@@ -34,7 +34,7 @@ export default defineInstance({
   // share images (public/share/Card_profile_<card>_<locale>.jpg)
   profiles: [
     { id: 'imagina', questions: [{ id: 'creative' }, { id: 'fun' }], card: 'Imagine' },
-    { id: 'proyecta', questions: [{ id: 'wantCareer' }, { id: 'stableJob' }], card: 'Envision' },
+    { id: 'proyecta', questions: [{ id: 'wantCareer' }, { id: 'stableJob' }], card: 'Project' },
     { id: 'innova', questions: [{ id: 'modern' }, { id: 'innovation' }], card: 'Innovate' },
     { id: 'transforma', questions: [{ id: 'wellbeing' }, { id: 'socialSciences', inverted: true }], card: 'Transform' }
   ]
