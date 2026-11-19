@@ -27,7 +27,15 @@ const { textKey } = useInstance()
       {{ t(textKey('intro.body')) }}
     </p>
 
+    <!-- Without saving, the survey can't start: the message takes the button's place -->
+    <p
+      v-if="store.saveUnavailable"
+      class="max-w-sm text-xl font-semibold text-primary sm:max-w-92 sm:leading-[1.1]"
+    >
+      {{ t('intro.unavailable') }}
+    </p>
     <UButton
+      v-else
       size="xl"
       :label="t('intro.cta')"
       class="w-full sm:w-92"

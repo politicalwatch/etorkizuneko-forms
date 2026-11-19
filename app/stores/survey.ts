@@ -33,6 +33,9 @@ export const useSurveyStore = defineStore('survey', () => {
   // Signed reference to this response's Notion row, set by the first save
   // (useResponsePersistence). Lives only in memory: a reload starts a new one.
   const responseToken = ref<string | null>(null)
+  // Set when responses can't be saved (useResponsePersistence checks on
+  // load): the survey can't be started then
+  const saveUnavailable = ref(false)
 
   // Id of the winning result profile
   const result = computed(() => resolveProfile(instance.profiles, answers.value))
@@ -71,5 +74,5 @@ export const useSurveyStore = defineStore('survey', () => {
     responseToken.value = null
   }
 
-  return { profiling, answers, email, emailConsentAt, stepIndex, step, stepId, nextStep, responseToken, result, progress, finished, next, reset }
+  return { profiling, answers, email, emailConsentAt, stepIndex, step, stepId, nextStep, responseToken, saveUnavailable, result, progress, finished, next, reset }
 })

@@ -13,7 +13,8 @@
     "logos": "Agertokiak, Etorkizuneko Foroa eta Eusko Jaurlaritza"
   },
   "intro": {
-    "cta": "Ezagutu zure profila"
+    "cta": "Ezagutu zure profila",
+    "unavailable": "Une honetan ezin ditugu erantzunak gorde. Saiatu berriro geroago."
   },
   "splash": {
     "title": "Euskal gazteen etorkizuna irudikatzen",

@@ -225,13 +225,22 @@ async function ensureColumns(): Promise<string> {
   return existing.find(property => property.type === 'title')!.name
 }
 
-async function rowProperties(response: SurveyResponse, { create = false } = {}) {
+/**
+ * Checks once per process that the table can be written to: configured,
+ * reachable with the API key, and with the right columns (created if
+ * missing). Resolves to the name of its title column. A failure is retried
+ * on the next call (e.g. after fixing the table).
+ */
+export function ensureNotionTable(): Promise<string> {
   ready ??= ensureColumns().catch((error) => {
-    // Retry on the next request (e.g. after fixing the table)
     ready = undefined
     throw error
   })
-  const titleColumn = await ready
+  return ready
+}
+
+async function rowProperties(response: SurveyResponse, { create = false } = {}) {
+  const titleColumn = await ensureNotionTable()
   const { columns } = useNotion()
 
   const properties: Record<string, PropertyValue> = Object.fromEntries(

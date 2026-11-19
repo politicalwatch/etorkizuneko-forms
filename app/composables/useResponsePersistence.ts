@@ -8,8 +8,12 @@ import { isSavedStep } from '#shared/survey/steps'
  * Saves run one at a time, and changes made while one is in flight are sent
  * right after it, as a single save. A failed save is only logged: the next
  * step sends everything again.
+ *
+ * Whether saving works at all is checked on load (during SSR, so the intro
+ * renders right away): if it doesn't, the survey can't be started. Await it
+ * so the result is in before the intro renders.
  */
-export function useResponsePersistence() {
+export async function useResponsePersistence() {
   const store = useSurveyStore()
   const { locale } = useI18n()
 
@@ -57,4 +61,8 @@ export function useResponsePersistence() {
   watch(() => store.stepIndex, () => {
     if (isSavedStep(store.step)) save()
   })
+
+  // Last: after an await the component context is lost
+  const { error } = await useFetch('/api/responses/status')
+  store.saveUnavailable = !!error.value
 }

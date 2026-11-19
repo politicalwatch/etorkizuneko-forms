@@ -17,7 +17,7 @@ const screenKey = computed(() => {
   return store.stepIndex
 })
 
-useResponsePersistence()
+await useResponsePersistence()
 
 // The central animation plays the loop of the current splash or world, and
 // moves between them as the steps do. Its frames start loading right away:

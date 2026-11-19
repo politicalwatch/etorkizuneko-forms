@@ -13,7 +13,8 @@
     "logos": "Agertokiak, Etorkizuneko Foroa and Basque Government"
   },
   "intro": {
-    "cta": "Discover your profile"
+    "cta": "Discover your profile",
+    "unavailable": "We can't save responses right now. Please try again later."
   },
   "splash": {
     "title": "Imagining the future of Basque youth",
