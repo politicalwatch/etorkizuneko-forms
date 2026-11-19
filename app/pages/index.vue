@@ -34,6 +34,18 @@ onMounted(stage.preload)
 const surfaceOf = (step: Step) =>
   step.kind === 'splash' || step.kind === 'question' ? 'surface-light' : 'surface-dark'
 
+// Paint the page canvas (<html> and <body>) with the current surface too:
+// mobile Safari tints its bars (and the overscroll area) from it, else they
+// show white bands around the black screens. theme-color does the same for
+// browsers that read it.
+const isLight = computed(() => surfaceOf(store.step) === 'surface-light')
+const canvasClass = () => isLight.value ? 'bg-paper' : 'bg-ink'
+useHead({
+  htmlAttrs: { class: canvasClass },
+  bodyAttrs: { class: canvasClass },
+  meta: [{ name: 'theme-color', content: () => isLight.value ? '#ffffff' : '#000000' }]
+})
+
 // On mobile the white screens are full-bleed, without the tagline
 const taglineClass = (step: Step) =>
   ['px-6 pb-8', { 'max-md:hidden': surfaceOf(step) === 'surface-light' }]

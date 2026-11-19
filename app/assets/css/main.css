@@ -58,3 +58,16 @@
   background-color: var(--surface-bg);
   color: var(--surface-fg);
 }
+
+/*
+ * The page canvas is black by default (most screens, and the share page):
+ * mobile browsers tint their bars and overscroll from it. Both <html> and
+ * <body>: Nuxt UI paints the body white (bg-default). The survey page
+ * switches them to white on the white screens.
+ */
+@layer base {
+  html,
+  body {
+    background-color: var(--color-ink);
+  }
+}
