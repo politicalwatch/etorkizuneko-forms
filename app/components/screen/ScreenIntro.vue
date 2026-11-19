@@ -5,11 +5,16 @@ const { textKey } = useInstance()
 </script>
 
 <template>
-  <section class="flex flex-1 flex-col justify-center gap-10">
+  <!-- A size container: the title is capped to its width (cqi) -->
+  <section class="@container flex flex-1 flex-col justify-center gap-10">
     <div>
+      <!--
+        "INDUSTRIA" is ~5.2em wide: 18.5cqi fills the column without
+        overflowing. From sm up, no bigger than designed (14vw, max 12.5rem).
+      -->
       <h1
         tabindex="-1"
-        class="text-[clamp(4.5rem,14vw,12.5rem)] leading-[0.85] font-bold sm:-ms-[0.09em] uppercase outline-none"
+        class="text-[18.5cqi] sm:text-[min(14vw,18.5cqi,12.5rem)] leading-[0.85] font-bold sm:-ms-[0.09em] uppercase outline-none"
       >
         {{ t(textKey('title')) }}
       </h1>
