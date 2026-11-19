@@ -4,7 +4,11 @@
  * to the project site. Texts are per instance; the profile list is built from
  * the instance's profile names so it always matches the result screen.
  */
-import partnerLogos from '~/assets/images/partner-logos.png'
+import logoAgertokiak from '~/assets/images/logo-agertokiak.svg'
+import logoEtorkizunekoForoa from '~/assets/images/logo-etorkizuneko-foroa.svg'
+import logoGobiernoVasco from '~/assets/images/logo-gobierno-vasco.svg'
+
+const LOGOS = [logoAgertokiak, logoEtorkizunekoForoa, logoGobiernoVasco]
 
 const open = defineModel<boolean>('open', { default: false })
 
@@ -28,14 +32,20 @@ const profiles = computed(() =>
     size="lg"
     closable
   >
-    <!-- The PNG is the logos' alpha (white = opaque), used as a mask so they
-         take the text color -->
-    <span
+    <!-- One accessible name for the whole group; the images are decorative -->
+    <div
       role="img"
       :aria-label="t('about.logos')"
-      class="block aspect-2048/191 w-50 bg-ink mask-luminance mask-contain mask-no-repeat sm:w-72"
-      :style="{ maskImage: `url(${partnerLogos})` }"
-    />
+      class="flex items-center gap-3 sm:gap-4"
+    >
+      <img
+        v-for="logo in LOGOS"
+        :key="logo"
+        :src="logo"
+        alt=""
+        class="h-5 w-auto sm:h-6"
+      >
+    </div>
 
     <div class="flex flex-col gap-3 leading-snug">
       <h2 class="mb-2 text-3xl leading-none font-semibold tracking-tight text-balance">
