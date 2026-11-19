@@ -5,7 +5,8 @@
     "close": "Itxi",
     "language": "Hizkuntza",
     "next": "Hurrengoa",
-    "progress": "Aurrerapena"
+    "progress": "Aurrerapena",
+    "newTab": "(fitxa berri batean irekitzen da)"
   },
   "about": {
     "cta": "Proiektua ezagutu",
@@ -94,6 +95,8 @@
     "amount": "100 €",
     "emailLabel": "Helbide elektronikoa",
     "emailPlaceholder": "izena{'@'}adibidea.com",
+    "consent": "{policy} irakurri eta onartzen dut.",
+    "privacyPolicy": "Pribatutasun-politika",
     "submit": "Bidali",
     "skip": "Ez, eskerrik asko"
   }

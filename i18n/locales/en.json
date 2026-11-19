@@ -5,7 +5,8 @@
     "close": "Close",
     "language": "Language",
     "next": "Next",
-    "progress": "Progress"
+    "progress": "Progress",
+    "newTab": "(opens in a new tab)"
   },
   "about": {
     "cta": "Discover the project",
@@ -94,6 +95,8 @@
     "amount": "100 €",
     "emailLabel": "Email",
     "emailPlaceholder": "name{'@'}example.com",
+    "consent": "I have read and accept the {policy}.",
+    "privacyPolicy": "privacy policy",
     "submit": "Submit",
     "skip": "No, thanks"
   }

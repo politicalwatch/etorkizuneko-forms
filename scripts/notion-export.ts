@@ -37,6 +37,8 @@ function cellText(property: Property): string {
     case 'select':
     case 'status':
       return (value as { name: string } | null)?.name ?? ''
+    case 'date':
+      return (value as { start: string } | null)?.start ?? ''
     case 'multi_select':
       return (value as { name: string }[]).map(option => option.name).join(';')
     default:

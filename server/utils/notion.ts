@@ -133,6 +133,13 @@ function buildColumns(instance: InstanceDefinition): Column[] {
       type: 'email',
       schema: { email: {} },
       value: response => ({ email: response.email || null })
+    },
+    {
+      // When the privacy policy was accepted to leave the email
+      name: 'emailConsentAt',
+      type: 'date',
+      schema: { date: {} },
+      value: response => ({ date: response.emailConsentAt ? { start: response.emailConsentAt } : null })
     }
   ]
 }

@@ -5,7 +5,8 @@
     "close": "Cerrar",
     "language": "Idioma",
     "next": "Siguiente",
-    "progress": "Progreso"
+    "progress": "Progreso",
+    "newTab": "(se abre en una pestaña nueva)"
   },
   "about": {
     "cta": "Conocer el proyecto",
@@ -94,6 +95,8 @@
     "amount": "100 €",
     "emailLabel": "Email",
     "emailPlaceholder": "nombre{'@'}ejemplo.com",
+    "consent": "He leído y acepto la {policy}.",
+    "privacyPolicy": "política de privacidad",
     "submit": "Enviar",
     "skip": "No, gracias"
   }

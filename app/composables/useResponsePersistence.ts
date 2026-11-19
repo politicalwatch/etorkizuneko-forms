@@ -22,7 +22,8 @@ export function useResponsePersistence() {
       step: store.stepId,
       profiling: store.profiling,
       answers: store.answers,
-      email: store.email
+      email: store.email,
+      emailConsentAt: store.emailConsentAt
     }
     // keepalive: the last save still goes through if the tab is closed
     if (store.responseToken) {

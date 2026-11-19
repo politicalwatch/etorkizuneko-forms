@@ -46,7 +46,12 @@ function buildResponseSchema(instance: InstanceDefinition) {
     answers: z.strictObject(Object.fromEntries(
       questionIds.map(id => [id, z.number().min(SCALE_MIN).max(SCALE_MAX).optional()])
     )),
-    email: z.union([z.literal(''), z.email().max(254)])
+    email: z.union([z.literal(''), z.email().max(254)]),
+    // When the privacy policy was accepted: required to keep an email
+    emailConsentAt: z.iso.datetime().nullable()
+  }).refine(response => !response.email || response.emailConsentAt, {
+    message: 'An email needs the privacy policy consent',
+    path: ['emailConsentAt']
   })
 }
 

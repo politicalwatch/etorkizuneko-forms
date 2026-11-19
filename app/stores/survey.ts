@@ -22,6 +22,8 @@ export const useSurveyStore = defineStore('survey', () => {
   const profiling = ref<ProfilingAnswers>(emptyProfiling(instance))
   const answers = ref<Answers>({})
   const email = ref('')
+  // When the person accepted the privacy policy to leave their email (ISO date)
+  const emailConsentAt = ref<string | null>(null)
 
   const stepIndex = ref(0)
   const step = computed(() => steps[stepIndex.value]!)
@@ -64,9 +66,10 @@ export const useSurveyStore = defineStore('survey', () => {
     profiling.value = emptyProfiling(instance)
     answers.value = {}
     email.value = ''
+    emailConsentAt.value = null
     stepIndex.value = 0
     responseToken.value = null
   }
 
-  return { profiling, answers, email, stepIndex, step, stepId, nextStep, responseToken, result, progress, finished, next, reset }
+  return { profiling, answers, email, emailConsentAt, stepIndex, step, stepId, nextStep, responseToken, result, progress, finished, next, reset }
 })

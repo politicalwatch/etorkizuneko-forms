@@ -1,7 +1,9 @@
 <script setup lang="ts">
 // Optional email to take part in the experience. Submitting it, "No, gracias"
-// or dismissing the modal (Esc / backdrop) moves on to the outro.
-const { t } = useI18n()
+// or dismissing the modal (Esc / backdrop) moves on to the outro. Leaving the
+// email needs the privacy policy accepted (unticked by default, GDPR); the
+// time of consent is saved with it.
+const { t, locale } = useI18n()
 const store = useSurveyStore()
 
 const open = ref(true)
@@ -10,11 +12,13 @@ watch(open, (isOpen) => {
 })
 
 const email = ref(store.email)
-const isValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+const consent = ref(store.emailConsentAt != null)
+const isValid = computed(() => consent.value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 
 function submit() {
   if (!isValid.value) return
   store.email = email.value.trim()
+  store.emailConsentAt = new Date().toISOString()
   open.value = false
 }
 </script>
@@ -53,6 +57,28 @@ function submit() {
           :placeholder="t('thanks.emailPlaceholder')"
           :ui="{ base: 'h-12' }"
         />
+
+        <UCheckbox
+          v-model="consent"
+          size="xl"
+          class="-mt-2"
+        >
+          <template #label>
+            <!-- New tab: leaving the page would lose the response -->
+            <i18n-t
+              keypath="thanks.consent"
+              scope="global"
+            >
+              <template #policy>
+                <ULink
+                  :to="privacyPolicyUrl(locale)"
+                  target="_blank"
+                  class="text-ink underline underline-offset-4"
+                >{{ t('thanks.privacyPolicy') }}<span class="sr-only"> {{ t('app.newTab') }}</span></ULink>
+              </template>
+            </i18n-t>
+          </template>
+        </UCheckbox>
 
         <UButton
           type="submit"

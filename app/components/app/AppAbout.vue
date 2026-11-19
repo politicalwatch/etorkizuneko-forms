@@ -12,12 +12,7 @@ const LOGOS = [logoAgertokiak, logoEtorkizunekoForoa, logoGobiernoVasco]
 
 const open = defineModel<boolean>('open', { default: false })
 
-// Same site for every instance and deployment. It routes with the same
-// locale codes as this app (/es, /eu, /en), so link to the current one.
-const PROJECT_URL = 'https://etorkizunekoforoa.eus'
-
 const { t, locale } = useI18n()
-const projectUrl = computed(() => `${PROJECT_URL}/${locale.value}`)
 const { instance, textKey } = useInstance()
 
 const profiles = computed(() =>
@@ -73,7 +68,7 @@ const profiles = computed(() =>
 
     <template #footer>
       <UButton
-        :to="projectUrl"
+        :to="projectUrl(locale)"
         target="_blank"
         size="xl"
         block

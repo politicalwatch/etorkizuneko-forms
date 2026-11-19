@@ -57,6 +57,14 @@ export default defineAppConfig({
       }
     },
 
+    // Box in the surface color (the default ring is too faint), brand when ticked
+    checkbox: {
+      slots: {
+        base: 'ring-(--surface-fg)',
+        label: 'font-normal text-(--surface-fg)'
+      }
+    },
+
     select: {
       variants: {
         variant: {
