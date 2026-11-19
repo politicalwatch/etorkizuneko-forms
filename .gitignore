@@ -30,3 +30,6 @@ exports
 storybook-static
 
 docs
+
+# After Effects exports: the source of StageVisual's frames (scripts/stage-frames.sh)
+public/video

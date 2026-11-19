@@ -2,7 +2,7 @@
 // The worlds. The page keeps this mounted through all of them: within a world
 // only the question changes (elevator transition); to the next world, its
 // title and question column swing out like doors and the next ones in. The
-// shape stays (its own animation will come with StageVisual).
+// animation stays, and plays its way into the next world's loop.
 const { worldIndex } = defineProps<{
   worldIndex: number
   questionIndex: number
@@ -35,10 +35,7 @@ const worldNumber = computed(() => String(worldIndex + 1).padStart(2, '0'))
       </h1>
     </TransitionDoor>
 
-    <StageVisual
-      variant="world"
-      class="mx-auto md:order-2"
-    />
+    <StageVisual class="mx-auto md:order-2" />
 
     <!-- Within a world the dots stay (and light up); only the question rises out
     and the next one in. On desktop the column is centered, so its height must

@@ -1,14 +1,35 @@
 <script setup lang="ts">
 /*
- * PLACEHOLDER for the central animated visual (the stippled magenta circle
- * and the per-world shapes). It will become a video / image-sequence
- * animation; for now it only reserves the space with a rough CSS sketch so
- * layouts can be built around it.
+ * The central animation, drawn by the app-wide player (useStage): which loop
+ * it plays is up to the page, so every copy shows the same frame. Decorative.
  */
-withDefaults(defineProps<{
-  variant?: 'circle' | 'world'
-}>(), {
-  variant: 'circle'
+const stage = useStage()
+const { ready } = stage
+const canvas = useTemplateRef<HTMLCanvasElement>('canvas')
+
+// The backing store follows the displayed size (sharp on any screen density),
+// up to the frames' own size
+function fit(el: HTMLCanvasElement) {
+  const px = Math.min(Math.round(el.clientWidth * devicePixelRatio), stage.size)
+  if (px && el.width !== px) {
+    el.width = el.height = px
+    stage.redraw(el)
+  }
+}
+
+let observer: ResizeObserver | undefined
+
+onMounted(() => {
+  const el = canvas.value!
+  fit(el)
+  stage.attach(el)
+  observer = new ResizeObserver(() => fit(el))
+  observer.observe(el)
+})
+
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  stage.detach(canvas.value!)
 })
 </script>
 
@@ -17,15 +38,10 @@ withDefaults(defineProps<{
     class="pointer-events-none relative aspect-square w-full max-w-72"
     aria-hidden="true"
   >
-    <template v-if="variant === 'circle'">
-      <span class="absolute inset-[8%] rounded-full border-[6px] border-brand-500 opacity-90" />
-      <span class="absolute top-[22%] left-[55%] size-[16%] rounded-full bg-brand-500" />
-      <span class="absolute top-[58%] left-[28%] size-[12%] rounded-full bg-brand-500" />
-    </template>
-
-    <span
-      v-else
-      class="absolute inset-x-[5%] inset-y-[30%] rounded-[50%] border-14 border-brand-500/80"
+    <canvas
+      ref="canvas"
+      class="absolute inset-0 size-full transition-opacity duration-500"
+      :class="ready ? 'opacity-100' : 'opacity-0'"
     />
   </div>
 </template>

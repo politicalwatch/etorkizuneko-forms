@@ -9,6 +9,8 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-docs'
   ],
-  framework: '@storybook-vue/nuxt'
+  framework: '@storybook-vue/nuxt',
+  // Served at the root like Nuxt does (StageVisual's frames, …)
+  staticDirs: ['../public']
 }
 export default config

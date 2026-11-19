@@ -19,6 +19,17 @@ const screenKey = computed(() => {
 
 useResponsePersistence()
 
+// The central animation plays the loop of the current splash or world, and
+// moves between them as the steps do. Its frames start loading right away:
+// the intro and profiling give them time.
+const stage = useStage()
+watchEffect(() => {
+  const step = store.step
+  if (step.kind === 'splash') stage.setTarget(step.position === 'before' ? 0 : STAGE_LOOP_COUNT - 1)
+  else if (step.kind === 'question') stage.setTarget(step.worldIndex + 1)
+})
+onMounted(stage.preload)
+
 // Worlds and splash sit on white; everything else on black
 const surfaceOf = (step: Step) =>
   step.kind === 'splash' || step.kind === 'question' ? 'surface-light' : 'surface-dark'
