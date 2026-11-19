@@ -73,16 +73,28 @@ const fadeSurface = computed(() => store.step.kind === 'splash')
 // The page clips its overflow: content moving in from below mustn't add a
 // scrollbar meanwhile
 
+// A new world starts at the top: on mobile its screen is taller than the
+// viewport, and whoever scrolled down to answer would miss the next world's
+// title and animation coming in. The page glides up while the old world
+// leaves (instantly with reduced motion).
+const isNewWorld = (step: Step, prev: Step) =>
+  step.kind === 'question' && prev.kind === 'question' && step.worldIndex !== prev.worldIndex
+
 // Move focus into the new screen so keyboard and screen reader users land on
 // it: its main field if it has one, else its heading. Skipped on first load.
-// Content still on its way out is inert: skip it.
+// Content still on its way out is inert: skip it. On a new world, without
+// scrolling to the field: that would undo the glide to the top.
 const main = useTemplateRef<HTMLElement>('main')
 const find = (selector: string) =>
   [...main.value?.querySelectorAll<HTMLElement>(selector) ?? []].find(el => !el.closest('[inert]'))
-watch(() => store.stepIndex, async () => {
+watch(() => store.step, async (step, prev) => {
+  const newWorld = isNewWorld(step, prev)
+  if (newWorld) {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'instant' : 'smooth' })
+  }
   await nextTick()
   const target = find('[data-autofocus]') ?? find('h1')
-  target?.focus()
+  target?.focus({ preventScroll: newWorld })
 })
 </script>
 
