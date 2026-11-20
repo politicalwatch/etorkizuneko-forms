@@ -29,7 +29,8 @@ function profilingValueSchema(field: ProfilingField) {
 
 /*
  * Snapshot of a (possibly unfinished) response, as the client sends it on
- * every step. Built from the instance definition, so only its own fields,
+ * every step. Never holds contact details: emails go to their own table
+ * (parseEmailSignup). Built from the instance definition, so only its own fields,
  * questions and steps are accepted; anything unknown is rejected.
  */
 function buildResponseSchema(instance: InstanceDefinition) {
@@ -45,13 +46,7 @@ function buildResponseSchema(instance: InstanceDefinition) {
     )),
     answers: z.strictObject(Object.fromEntries(
       questionIds.map(id => [id, z.number().min(SCALE_MIN).max(SCALE_MAX).optional()])
-    )),
-    email: z.union([z.literal(''), z.email().max(254)]),
-    // When the privacy policy was accepted: required to keep an email
-    emailConsentAt: z.iso.datetime().nullable()
-  }).refine(response => !response.email || response.emailConsentAt, {
-    message: 'An email needs the privacy policy consent',
-    path: ['emailConsentAt']
+    ))
   })
 }
 
@@ -63,4 +58,15 @@ let schema: ReturnType<typeof buildResponseSchema> | undefined
 export function parseSurveyResponse(body: unknown): SurveyResponse {
   schema ??= buildResponseSchema(useSurveyInstance())
   return schema.parse(body)
+}
+
+// Accepted privacy policy: the client only sends it once the box is ticked
+const emailSignupSchema = z.strictObject({
+  email: z.email().max(254),
+  consent: z.literal(true)
+})
+
+/** Validator for readValidatedBody: an email left on the thanks screen. */
+export function parseEmailSignup(body: unknown): EmailSignup {
+  return emailSignupSchema.parse(body)
 }

@@ -92,14 +92,15 @@
   },
   "thanks": {
     "title": "Eskerrik asko!",
-    "body": "Agertokiak komunitatearen parte izan eta nobedade guztien berri izan nahi duzu?",
-    "cta": "Utzi zure helbide elektronikoa* eta dena kontatuko dizugu :)",
+    "body": "Agertokiak komunitateko kide izan eta nobedade guztien berri jaso nahi duzu?",
+    "cta": "Utzi zure posta elektronikoa* eta guztiaren berri emango dizugu :)",
     "emailLabel": "Helbide elektronikoa",
     "emailPlaceholder": "izena{'@'}adibidea.com",
     "consent": "{policy} irakurri eta onartzen dut.",
     "privacyPolicy": "Pribatutasun-politika",
     "submit": "Bidali",
-    "footnote": "*Ematen diguzun helbide elektronikoa ez da inola ere aurreko ataleko erantzunekin lotuko.",
+    "error": "Ezin izan dugu zure posta elektronikoa gorde. Saiatu berriro.",
+    "footnote": "*Ematen diguzun posta elektronikoa ez da inola ere aurreko ataleko erantzunekin lotuko.",
     "skip": "Ez, eskerrik asko"
   }
 }

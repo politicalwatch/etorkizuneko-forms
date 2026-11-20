@@ -1,5 +1,5 @@
 /*
- * Downloads every response in the Notion table as a CSV backup:
+ * Downloads every response in the Notion responses table as a CSV backup:
  *
  *   npm run notion:export              → exports/responses-<timestamp>.csv
  *   npm run notion:export -- out.csv   → out.csv
@@ -9,7 +9,7 @@
  * server/utils/notion.ts), hidden ones included, after the row's page id.
  * Multiple choices are joined with ";".
  *
- * The file holds personal data (emails, profiling answers): exports/ is
+ * The file holds personal data (profiling answers): exports/ is
  * git-ignored, keep backups somewhere access-controlled.
  */
 import { mkdir, writeFile } from 'node:fs/promises'

@@ -5,7 +5,16 @@ import { resolveProfile } from '#shared/survey/scoring'
 import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#shared/survey/steps'
 
 /*
- * Responses are stored one row per person in a Notion data source (a table).
+ * Two Notion data sources (tables) per deployment:
+ *
+ * - responses: one row per person with their answers, never any contact
+ *   details.
+ * - emails: the addresses left on the thanks screen, with the instance and
+ *   the privacy policy consent only, so an email can't be matched to a
+ *   response. No time column (Notion still records each row's creation
+ *   time). It can be shared by several instances.
+ *
+ * Responses are stored one row per person.
  * Column names are built from the stable ids of the instance definition and
  * select options are the option ids, so the table can be analysed without
  * the i18n texts drifting under it. Profiling and question columns are
@@ -20,31 +29,43 @@ import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#sh
  * columns land where they belong instead of at the end. Otherwise the views
  * are left alone, so manual layout changes in Notion stick.
  *
- * The columns are created on the first write of each server process from the
- * instance definition (ensureColumns): an empty table only needs its title
- * column. Existing columns are never renamed or removed.
+ * The columns of both tables are created on the first write of each server
+ * process from the instance definition (ensureColumns): an empty table only
+ * needs its title column. Existing columns are never renamed or removed.
  */
 
 type PropertyValue = NonNullable<CreatePageParameters['properties']>[string]
 type PropertySchema = NonNullable<UpdateDataSourceParameters['properties']>[string]
 
-interface Column {
+interface Column<Row> {
   name: string
   // Type the column must have, and how to create it if missing
   type: string
   schema: PropertySchema
   // Value written to the row; undefined = column filled in by Notion
-  value?: (response: SurveyResponse) => PropertyValue
+  value?: (row: Row) => PropertyValue
+}
+
+export interface EmailSignup {
+  email: string
+  consent: true
 }
 
 const select = (value: string | null | undefined): PropertyValue => ({ select: value ? { name: value } : null })
 const options = (values: readonly string[]) => values.map(name => ({ name }))
 
-function buildColumns(instance: InstanceDefinition): Column[] {
+const instanceColumn = (instance: InstanceDefinition): Column<unknown> => ({
+  name: 'instance',
+  type: 'select',
+  schema: { select: { options: options([instance.name]) } },
+  value: () => select(instance.name)
+})
+
+function buildResponseColumns(instance: InstanceDefinition): Column<SurveyResponse>[] {
   const questionIds = instance.worlds.flatMap(world => world.questions)
   const savedSteps = buildSteps(instance).filter(isSavedStep).map(step => stepKey(instance, step))
 
-  const profiling = instance.profiling.map((field): Column => {
+  const profiling = instance.profiling.map((field): Column<SurveyResponse> => {
     const name = profilingKey(field.id)
     const read = (response: SurveyResponse) => response.profiling[field.id]
     switch (field.kind) {
@@ -83,7 +104,7 @@ function buildColumns(instance: InstanceDefinition): Column[] {
   })
 
   const questions = instance.worlds.flatMap((world, worldIndex) =>
-    world.questions.map((id, questionIndex): Column => ({
+    world.questions.map((id, questionIndex): Column<SurveyResponse> => ({
       name: questionKey(worldIndex, questionIndex, id),
       type: 'number',
       schema: { number: { format: 'number' } },
@@ -95,14 +116,9 @@ function buildColumns(instance: InstanceDefinition): Column[] {
   return [
     { name: 'createdAt', type: 'created_time', schema: { created_time: {} } },
     { name: 'updatedAt', type: 'last_edited_time', schema: { last_edited_time: {} } },
-    {
-      // Each instance has its own table (its questions differ); the column
-      // keeps every row self-describing anyway
-      name: 'instance',
-      type: 'select',
-      schema: { select: { options: options([instance.name]) } },
-      value: () => select(instance.name)
-    },
+    // Each instance has its own table (its questions differ); the column
+    // keeps every row self-describing anyway
+    instanceColumn(instance),
     {
       name: 'locale',
       type: 'select',
@@ -127,36 +143,59 @@ function buildColumns(instance: InstanceDefinition): Column[] {
           ? resolveProfile(instance.profiles, response.answers)
           : null
       )
-    },
-    {
-      name: 'email',
-      type: 'email',
-      schema: { email: {} },
-      value: response => ({ email: response.email || null })
-    },
-    {
-      // When the privacy policy was accepted to leave the email
-      name: 'emailConsentAt',
-      type: 'date',
-      schema: { date: {} },
-      value: response => ({ date: response.emailConsentAt ? { start: response.emailConsentAt } : null })
     }
   ]
 }
 
-let client: Client | undefined
-let columns: Column[] | undefined
-// Name of the table's title column, which every row must fill
-let ready: Promise<string> | undefined
+// The email goes in the title column (see tableRow)
+function buildEmailColumns(instance: InstanceDefinition): Column<EmailSignup>[] {
+  return [
+    instanceColumn(instance),
+    {
+      // Always ticked: an email is only accepted with the consent
+      name: 'consent',
+      type: 'checkbox',
+      schema: { checkbox: {} },
+      value: signup => ({ checkbox: signup.consent })
+    }
+  ]
+}
 
-export function useNotion() {
-  const { apiKey, dataSourceId } = useRuntimeConfig().notion
-  if (!apiKey || !dataSourceId) {
-    throw createError({ statusCode: 503, statusMessage: 'Notion persistence is not configured' })
+type TableName = 'responses' | 'emails'
+interface TableRow { responses: SurveyResponse, emails: EmailSignup }
+
+interface Table<Row> {
+  name: TableName
+  dataSourceId: string
+  columns: Column<Row>[]
+  // Text of the title column, which every row must fill
+  title: (row: Row) => string
+}
+
+let client: Client | undefined
+const columnsCache: { [Name in TableName]?: Column<TableRow[Name]>[] } = {}
+// Per table: name of its title column, once its columns are checked
+const ready: { [Name in TableName]?: Promise<string> } = {}
+
+function useNotionTable<Name extends TableName>(name: Name): { client: Client } & Table<TableRow[Name]> {
+  const { apiKey, dataSourceId, emailsDataSourceId } = useRuntimeConfig().notion
+  const tableId = name === 'responses' ? dataSourceId : emailsDataSourceId
+  if (!apiKey || !tableId) {
+    throw createError({ statusCode: 503, statusMessage: `Notion persistence is not configured (${name})` })
   }
   client ??= new Client({ auth: apiKey })
-  columns ??= buildColumns(useSurveyInstance())
-  return { client, dataSourceId, columns }
+  const instance = useSurveyInstance()
+  const table = name === 'responses'
+    ? {
+        columns: columnsCache.responses ??= buildResponseColumns(instance),
+        // Short reference to find a row by eye; the real key is the page id
+        title: () => crypto.randomUUID().slice(0, 8)
+      }
+    : {
+        columns: columnsCache.emails ??= buildEmailColumns(instance),
+        title: (row: EmailSignup) => row.email
+      }
+  return { client, name, dataSourceId: tableId, ...table } as { client: Client } & Table<TableRow[Name]>
 }
 
 /**
@@ -165,8 +204,8 @@ export function useNotion() {
  * a column the view has no settings for yet is shown (Notion hides any
  * column sent without `visible: true`).
  */
-async function orderTableViews(properties: Record<string, { id: string, name: string, type: string }>) {
-  const { client, dataSourceId, columns } = useNotion()
+async function orderTableViews(name: TableName, properties: Record<string, { id: string, name: string, type: string }>) {
+  const { client, dataSourceId, columns } = useNotionTable(name)
   const all = Object.values(properties)
   const ordered = [
     ...all.filter(property => property.type === 'title'),
@@ -200,8 +239,8 @@ async function orderTableViews(properties: Record<string, { id: string, name: st
  * Creates the missing columns once per process (and lays out the views);
  * fails on a type mismatch.
  */
-async function ensureColumns(): Promise<string> {
-  const { client, dataSourceId, columns } = useNotion()
+async function ensureColumns(name: TableName): Promise<string> {
+  const { client, dataSourceId, columns } = useNotionTable(name)
   const { properties } = await client.dataSources.retrieve({ data_source_id: dataSourceId })
   const existing = Object.values(properties)
 
@@ -210,7 +249,7 @@ async function ensureColumns(): Promise<string> {
     return property && property.type !== column.type
   })
   if (mismatched.length) {
-    throw new Error(`Notion columns with the wrong type: ${mismatched.map(column => `${column.name} (expected ${column.type})`).join(', ')}`)
+    throw new Error(`Notion columns with the wrong type in ${name}: ${mismatched.map(column => `${column.name} (expected ${column.type})`).join(', ')}`)
   }
 
   const missing = columns.filter(column => !existing.some(property => property.name === column.name))
@@ -219,52 +258,58 @@ async function ensureColumns(): Promise<string> {
       data_source_id: dataSourceId,
       properties: Object.fromEntries(missing.map(column => [column.name, column.schema]))
     })
-    if ('properties' in updated) await orderTableViews(updated.properties)
+    if ('properties' in updated) await orderTableViews(name, updated.properties)
   }
 
   return existing.find(property => property.type === 'title')!.name
 }
 
 /**
- * Checks once per process that the table can be written to: configured,
+ * Checks once per process that a table can be written to: configured,
  * reachable with the API key, and with the right columns (created if
  * missing). Resolves to the name of its title column. A failure is retried
  * on the next call (e.g. after fixing the table).
  */
-export function ensureNotionTable(): Promise<string> {
-  ready ??= ensureColumns().catch((error) => {
-    ready = undefined
+export function ensureNotionTable(name: TableName): Promise<string> {
+  ready[name] ??= ensureColumns(name).catch((error) => {
+    ready[name] = undefined
     throw error
   })
-  return ready
+  return ready[name]
 }
 
-async function rowProperties(response: SurveyResponse, { create = false } = {}) {
-  const titleColumn = await ensureNotionTable()
-  const { columns } = useNotion()
+async function tableRow<Name extends TableName>(name: Name, row: TableRow[Name], { create = false } = {}) {
+  const titleColumn = await ensureNotionTable(name)
+  const { columns, title } = useNotionTable(name)
 
   const properties: Record<string, PropertyValue> = Object.fromEntries(
-    columns.filter(column => column.value).map(column => [column.name, column.value!(response)])
+    columns.filter(column => column.value).map(column => [column.name, column.value!(row)])
   )
-  // Short reference to find a row by eye; the real key is the page id
-  if (create) {
-    properties[titleColumn] = { title: [{ text: { content: crypto.randomUUID().slice(0, 8) } }] }
-  }
+  if (create) properties[titleColumn] = { title: [{ text: { content: title(row) } }] }
   return properties
 }
 
 /** Creates the row of a new response; returns its Notion page id. */
 export async function createResponseRow(response: SurveyResponse): Promise<string> {
-  const { client, dataSourceId } = useNotion()
+  const { client, dataSourceId } = useNotionTable('responses')
   const page = await client.pages.create({
     parent: { type: 'data_source_id', data_source_id: dataSourceId },
-    properties: await rowProperties(response, { create: true })
+    properties: await tableRow('responses', response, { create: true })
   })
   return page.id
 }
 
 /** Overwrites the row of a response with its latest snapshot. */
 export async function updateResponseRow(pageId: string, response: SurveyResponse): Promise<void> {
-  const { client } = useNotion()
-  await client.pages.update({ page_id: pageId, properties: await rowProperties(response) })
+  const { client } = useNotionTable('responses')
+  await client.pages.update({ page_id: pageId, properties: await tableRow('responses', response) })
+}
+
+/** Adds an email to the emails table (nothing ties it to a response). */
+export async function createEmailRow(signup: EmailSignup): Promise<void> {
+  const { client, dataSourceId } = useNotionTable('emails')
+  await client.pages.create({
+    parent: { type: 'data_source_id', data_source_id: dataSourceId },
+    properties: await tableRow('emails', signup, { create: true })
+  })
 }

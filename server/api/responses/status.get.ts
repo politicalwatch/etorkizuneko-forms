@@ -1,11 +1,11 @@
 /**
- * Whether responses can be saved right now: 204 if the Notion table is
- * configured and writable, 503 otherwise. The survey doesn't let anyone start
+ * Whether responses can be saved right now: 204 if both Notion tables
+ * (responses and emails) are configured and writable, 503 otherwise. The survey doesn't let anyone start
  * without it (useResponsePersistence), unless NUXT_NOTION_OPTIONAL=true.
  */
 export default defineEventHandler(async (event) => {
   try {
-    await ensureNotionTable()
+    await Promise.all([ensureNotionTable('responses'), ensureNotionTable('emails')])
   } catch (error) {
     // The reason is for the server log only (config or Notion details)
     console.error('Responses cannot be saved:', error)

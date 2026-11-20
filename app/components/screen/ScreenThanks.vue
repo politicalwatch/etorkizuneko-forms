@@ -2,8 +2,9 @@
 // Optional email to join the Agertokiak community (never linked to the
 // answers). Submitting it, "No, gracias" or dismissing the modal (Esc /
 // backdrop) moves on to the outro. Leaving the
-// email needs the privacy policy accepted (unticked by default, GDPR); the
-// time of consent is saved with it.
+// email needs the privacy policy accepted (unticked by default, GDPR). The
+// email is sent on its own, to a table apart from the answers
+// (server/api/emails.post.ts); a failed send shows an error and stays open.
 const { t, locale } = useI18n()
 const store = useSurveyStore()
 
@@ -13,15 +14,26 @@ watch(open, (isOpen) => {
 })
 
 const footnoteId = useId()
-const email = ref(store.email)
-const consent = ref(store.emailConsentAt != null)
+const email = ref('')
+const consent = ref(false)
 const isValid = computed(() => consent.value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 
-function submit() {
-  if (!isValid.value) return
-  store.email = email.value.trim()
-  store.emailConsentAt = new Date().toISOString()
-  open.value = false
+const sending = ref(false)
+const failed = ref(false)
+
+async function submit() {
+  if (!isValid.value || sending.value) return
+  sending.value = true
+  failed.value = false
+  try {
+    await $fetch('/api/emails', { method: 'POST', body: { email: email.value.trim(), consent: true } })
+    open.value = false
+  } catch (error) {
+    console.error('Could not save the email', error)
+    failed.value = true
+  } finally {
+    sending.value = false
+  }
 }
 </script>
 
@@ -84,8 +96,17 @@ function submit() {
           size="xl"
           :label="t('thanks.submit')"
           :disabled="!isValid"
+          :loading="sending"
           class="mt-2 self-center px-10"
         />
+
+        <!-- Always rendered so screen readers announce the text when it appears -->
+        <p
+          role="alert"
+          class="-mt-3 text-center text-sm font-semibold empty:hidden"
+        >
+          {{ failed ? t('thanks.error') : '' }}
+        </p>
 
         <!-- Visible way to skip: the email is optional -->
         <UButton

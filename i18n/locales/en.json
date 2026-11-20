@@ -92,14 +92,15 @@
   },
   "thanks": {
     "title": "Thank you!",
-    "body": "Would you like to join the Agertokiak community and stay up to date with all the news?",
-    "cta": "Leave us your email* and we will tell you everything :)",
+    "body": "Would you like to be part of the Agertokiak community and stay up to date with all the latest news?",
+    "cta": "Leave us your email address* and we’ll tell you all about it :)",
     "emailLabel": "Email",
     "emailPlaceholder": "name{'@'}example.com",
     "consent": "I have read and accept the {policy}.",
     "privacyPolicy": "privacy policy",
     "submit": "Submit",
-    "footnote": "*The email you give us will never be linked to your answers in the previous section.",
+    "error": "We couldn't save your email. Please try again.",
+    "footnote": "*The email address you provide will not, under any circumstances, be linked to your responses in the previous section.",
     "skip": "No, thanks"
   }
 }

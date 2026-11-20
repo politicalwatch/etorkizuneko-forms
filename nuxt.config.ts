@@ -59,13 +59,15 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Where responses are saved (server/utils/notion.ts): the integration's
-    // token (NUXT_NOTION_API_KEY) and the table's data source id
-    // (NUXT_NOTION_DATA_SOURCE_ID), set per deployment. Without a working
-    // table the survey can't be started, unless NUXT_NOTION_OPTIONAL=true
+    // token (NUXT_NOTION_API_KEY), the responses table's data source id
+    // (NUXT_NOTION_DATA_SOURCE_ID) and the emails table's one
+    // (NUXT_NOTION_EMAILS_DATA_SOURCE_ID), set per deployment. Without working
+    // tables the survey can't be started, unless NUXT_NOTION_OPTIONAL=true
     // (for testing: responses are then not recorded)
     notion: {
       apiKey: '',
       dataSourceId: '',
+      emailsDataSourceId: '',
       optional: false
     },
     public: {

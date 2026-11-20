@@ -99,6 +99,7 @@
     "consent": "He leído y acepto la {policy}.",
     "privacyPolicy": "política de privacidad",
     "submit": "Enviar",
+    "error": "No hemos podido guardar tu correo. Inténtalo de nuevo.",
     "footnote": "*El correo que nos proporciones en ningún caso se vinculará con las respuestas del apartado anterior.",
     "skip": "No, gracias"
   }
