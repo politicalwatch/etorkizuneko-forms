@@ -17,7 +17,7 @@
     "@iconify-json/lucide": "^1.2.147",
     "@iconify-json/simple-icons": "^1.2.100",
     "@notionhq/client": "^5.31.1",
-    "@nuxt/ui": "^4.12.0",
+    "@nuxt/ui": "^4.13.0",
     "@nuxtjs/i18n": "^10.6.0",
     "@pinia/nuxt": "^1.0.3",
     "gsap": "^3.15.1",
@@ -29,13 +29,13 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
     "@nuxtjs/storybook": "latest",
-    "@storybook/addon-a11y": "^10.6.7",
-    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/addon-a11y": "^10.6.8",
+    "@storybook/addon-docs": "^10.6.8",
     "@types/node": "^26.6.6",
     "eslint": "^10.13.0",
     "eslint-plugin-better-tailwindcss": "^4.10.0",
-    "eslint-plugin-storybook": "^10.6.7",
-    "storybook": "^10.6.7",
+    "eslint-plugin-storybook": "^10.6.8",
+    "storybook": "^10.6.8",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.13"
   },
@@ -45,6 +45,8 @@
     "vue-demi@0.14.10": true
   },
   "overrides": {
-    "@nuxt/fonts": "^1.2.0"
+    "@intlify/bundle-utils": {
+      "esbuild": "^0.28.2"
+    }
   }
 }
