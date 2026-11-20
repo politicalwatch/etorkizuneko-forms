@@ -1,6 +1,7 @@
 <script setup lang="ts">
-// Optional email to take part in the experience. Submitting it, "No, gracias"
-// or dismissing the modal (Esc / backdrop) moves on to the outro. Leaving the
+// Optional email to join the Agertokiak community (never linked to the
+// answers). Submitting it, "No, gracias" or dismissing the modal (Esc /
+// backdrop) moves on to the outro. Leaving the
 // email needs the privacy policy accepted (unticked by default, GDPR); the
 // time of consent is saved with it.
 const { t, locale } = useI18n()
@@ -11,6 +12,7 @@ watch(open, (isOpen) => {
   if (!isOpen) store.next()
 })
 
+const footnoteId = useId()
 const email = ref(store.email)
 const consent = ref(store.emailConsentAt != null)
 const isValid = computed(() => consent.value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
@@ -38,16 +40,12 @@ function submit() {
           {{ t('thanks.title') }}
         </h2>
 
-        <i18n-t
-          keypath="thanks.body"
-          tag="p"
-          scope="global"
-          class="text-xl leading-snug"
-        >
-          <template #amount>
-            <strong>{{ t('thanks.amount') }}</strong>
-          </template>
-        </i18n-t>
+        <div class="flex flex-col gap-4 text-xl leading-snug">
+          <p>{{ t('thanks.body') }}</p>
+          <p class="font-semibold">
+            {{ t('thanks.cta') }}
+          </p>
+        </div>
 
         <UInput
           v-model="email"
@@ -55,6 +53,7 @@ function submit() {
           autocomplete="email"
           :aria-label="t('thanks.emailLabel')"
           :placeholder="t('thanks.emailPlaceholder')"
+          :aria-describedby="footnoteId"
           :ui="{ base: 'h-12' }"
         />
 
@@ -83,10 +82,9 @@ function submit() {
         <UButton
           type="submit"
           size="xl"
-          block
           :label="t('thanks.submit')"
           :disabled="!isValid"
-          class="mt-8"
+          class="mt-2 self-center px-10"
         />
 
         <!-- Visible way to skip: the email is optional -->
@@ -98,6 +96,14 @@ function submit() {
           class="-mt-5 self-center text-ink underline underline-offset-4"
           @click="open = false"
         />
+
+        <!-- Explains the asterisk in thanks.cta; also read with the email field -->
+        <p
+          :id="footnoteId"
+          class="text-xs leading-tight"
+        >
+          {{ t('thanks.footnote') }}
+        </p>
       </form>
     </AppModal>
   </section>

@@ -92,13 +92,14 @@
   },
   "thanks": {
     "title": "Eskerrik asko!",
-    "body": "Si quieres participar en la experiencia y optar a una beca de {amount}, ¡déjanos tu email y nos pondremos en contacto contigo! :)",
-    "amount": "100 €",
+    "body": "¿Quieres formar parte de la comunidad de Agertokiak y estar al día de todas las novedades?",
+    "cta": "Déjanos tu correo* y te lo contamos todo :)",
     "emailLabel": "Email",
     "emailPlaceholder": "nombre{'@'}ejemplo.com",
     "consent": "He leído y acepto la {policy}.",
     "privacyPolicy": "política de privacidad",
     "submit": "Enviar",
+    "footnote": "*El correo que nos proporciones en ningún caso se vinculará con las respuestas del apartado anterior.",
     "skip": "No, gracias"
   }
 }

@@ -92,13 +92,14 @@
   },
   "thanks": {
     "title": "Thank you!",
-    "body": "If you'd like to take part in the experience and have a chance to receive {amount}, leave us your email and we'll get in touch! :)",
-    "amount": "100 €",
+    "body": "Would you like to join the Agertokiak community and stay up to date with all the news?",
+    "cta": "Leave us your email* and we will tell you everything :)",
     "emailLabel": "Email",
     "emailPlaceholder": "name{'@'}example.com",
     "consent": "I have read and accept the {policy}.",
     "privacyPolicy": "privacy policy",
     "submit": "Submit",
+    "footnote": "*The email you give us will never be linked to your answers in the previous section.",
     "skip": "No, thanks"
   }
 }

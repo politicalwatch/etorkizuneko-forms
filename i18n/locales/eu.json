@@ -92,13 +92,14 @@
   },
   "thanks": {
     "title": "Eskerrik asko!",
-    "body": "Esperientzian parte hartu eta {amount}-ko beka bat eskuratzeko aukera izan nahi baduzu, utzi zure helbide elektronikoa eta zurekin harremanetan jarriko gara! :)",
-    "amount": "100 €",
+    "body": "Agertokiak komunitatearen parte izan eta nobedade guztien berri izan nahi duzu?",
+    "cta": "Utzi zure helbide elektronikoa* eta dena kontatuko dizugu :)",
     "emailLabel": "Helbide elektronikoa",
     "emailPlaceholder": "izena{'@'}adibidea.com",
     "consent": "{policy} irakurri eta onartzen dut.",
     "privacyPolicy": "Pribatutasun-politika",
     "submit": "Bidali",
+    "footnote": "*Ematen diguzun helbide elektronikoa ez da inola ere aurreko ataleko erantzunekin lotuko.",
     "skip": "Ez, eskerrik asko"
   }
 }
