@@ -11,10 +11,9 @@
  * Basque Country provinces, asked instead of the postal code (data
  * minimisation: the province is all the analysis needs, and it keeps the
  * answers anonymous). Exception to the camelCase ids: the Basque names are
- * stored as they are, so the table reads in Basque; labels translate only
- * "Beste bat" (other).
+ * stored as they are, and shown untranslated in every language.
  */
-export const provinceOptions = ['Araba', 'Bizkaia', 'Gipuzkoa', 'Beste bat'] as const
+export const provinceOptions = ['Araba', 'Bizkaia', 'Gipuzkoa'] as const
 export const genderOptions = ['male', 'female', 'nonBinary', 'undisclosed'] as const
 export const diversityOptions = ['lgtbiq', 'racialized', 'functionalDiversity', 'otherMinority', 'none'] as const
 export const educationOptions = ['eso', 'bachillerato', 'gradoMedio', 'gradoSuperior', 'university', 'master', 'other'] as const
