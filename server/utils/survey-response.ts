@@ -60,10 +60,12 @@ export function parseSurveyResponse(body: unknown): SurveyResponse {
   return schema.parse(body)
 }
 
-// Accepted privacy policy: the client only sends it once the box is ticked
+// Accepted privacy policy and confirmed age: the client only sends them once
+// both boxes are ticked
 const emailSignupSchema = z.strictObject({
   email: z.email().max(254),
-  consent: z.literal(true)
+  consent: z.literal(true),
+  atLeast14: z.literal(true)
 })
 
 /** Validator for readValidatedBody: an email left on the thanks screen. */

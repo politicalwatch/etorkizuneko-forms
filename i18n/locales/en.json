@@ -6,7 +6,8 @@
     "language": "Language",
     "next": "Next",
     "progress": "Progress",
-    "newTab": "(opens in a new tab)"
+    "newTab": "(opens in a new tab)",
+    "privacyPolicy": "Privacy policy"
   },
   "about": {
     "cta": "Discover the project",
@@ -26,6 +27,7 @@
     "fields": {
       "age": "Age",
       "gender": "Gender",
+      "province": "Province",
       "postalCode": "Postal code",
       "diversity": "Diversity",
       "education": "Education level",
@@ -38,6 +40,12 @@
         "female": "Female",
         "nonBinary": "Non-binary",
         "undisclosed": "Prefer not to say"
+      },
+      "province": {
+        "Araba": "Araba",
+        "Bizkaia": "Bizkaia",
+        "Gipuzkoa": "Gipuzkoa",
+        "Beste bat": "Other"
       },
       "diversity": {
         "lgtbiq": "LGTBIQ+",
@@ -97,7 +105,27 @@
     "emailLabel": "Email",
     "emailPlaceholder": "name{'@'}example.com",
     "consent": "I have read and accept the {policy}.",
+    "age": "I am 14 or older.",
     "privacyPolicy": "privacy policy",
+    "legal": {
+      "controller": {
+        "label": "Controller",
+        "text": "Dot S. Coop."
+      },
+      "purpose": {
+        "label": "Purpose",
+        "text": "sending you communications."
+      },
+      "basis": {
+        "label": "Legal basis",
+        "text": "your consent."
+      },
+      "rights": {
+        "label": "Rights",
+        "text": "access, rectification, erasure and more at {email}."
+      },
+      "more": "More information in our {policy}."
+    },
     "submit": "Submit",
     "error": "We couldn't save your email. Please try again.",
     "footnote": "*The email address you provide will not, under any circumstances, be linked to your responses in the previous section.",

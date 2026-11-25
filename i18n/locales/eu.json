@@ -6,7 +6,8 @@
     "language": "Hizkuntza",
     "next": "Hurrengoa",
     "progress": "Aurrerapena",
-    "newTab": "(fitxa berri batean irekitzen da)"
+    "newTab": "(fitxa berri batean irekitzen da)",
+    "privacyPolicy": "Pribatutasun-politika"
   },
   "about": {
     "cta": "Proiektua ezagutu",
@@ -26,6 +27,7 @@
     "fields": {
       "age": "Adina",
       "gender": "Generoa",
+      "province": "Probintzia",
       "postalCode": "Posta-kodea",
       "diversity": "Aniztasuna",
       "education": "Ikasketa-maila",
@@ -38,6 +40,12 @@
         "female": "Emakumezkoa",
         "nonBinary": "Ez-bitarra",
         "undisclosed": "Nahiago dut ez esan"
+      },
+      "province": {
+        "Araba": "Araba",
+        "Bizkaia": "Bizkaia",
+        "Gipuzkoa": "Gipuzkoa",
+        "Beste bat": "Beste bat"
       },
       "diversity": {
         "lgtbiq": "LGTBIQ+",
@@ -97,7 +105,27 @@
     "emailLabel": "Helbide elektronikoa",
     "emailPlaceholder": "izena{'@'}adibidea.com",
     "consent": "{policy} irakurri eta onartzen dut.",
+    "age": "14 urte edo gehiago ditut.",
     "privacyPolicy": "Pribatutasun-politika",
+    "legal": {
+      "controller": {
+        "label": "Arduraduna",
+        "text": "Dot S. Coop."
+      },
+      "purpose": {
+        "label": "Helburua",
+        "text": "komunikazioak bidaltzea."
+      },
+      "basis": {
+        "label": "Oinarri juridikoa",
+        "text": "zure baimena."
+      },
+      "rights": {
+        "label": "Eskubideak",
+        "text": "sarbidea, zuzenketa, ezabaketa eta beste batzuk, {email} helbidean."
+      },
+      "more": "Informazio gehiago: {policy}."
+    },
     "submit": "Bidali",
     "error": "Ezin izan dugu zure posta elektronikoa gorde. Saiatu berriro.",
     "footnote": "*Ematen diguzun posta elektronikoa ez da inola ere aurreko ataleko erantzunekin lotuko.",

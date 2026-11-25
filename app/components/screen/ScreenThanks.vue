@@ -1,11 +1,13 @@
 <script setup lang="ts">
 // Optional email to join the Agertokiak community (never linked to the
 // answers). Submitting it, "No, gracias" or dismissing the modal (Esc /
-// backdrop) moves on to the outro. Leaving the
-// email needs the privacy policy accepted (unticked by default, GDPR). The
+// backdrop) moves on to the outro. Leaving the email needs the privacy
+// policy accepted and being 14 or older confirmed (two boxes, unticked by
+// default, GDPR); a short data protection notice (controller, purpose, legal
+// basis, rights) sits right before the submit button, as the DPO asked. The
 // email is sent on its own, to a table apart from the answers
 // (server/api/emails.post.ts); a failed send shows an error and stays open.
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const store = useSurveyStore()
 
 const open = ref(true)
@@ -14,9 +16,14 @@ watch(open, (isOpen) => {
 })
 
 const footnoteId = useId()
+
+// Fields of the data protection notice, in the DPO's order
+const LEGAL_ITEMS = ['controller', 'purpose', 'basis', 'rights'] as const
+
 const email = ref('')
 const consent = ref(false)
-const isValid = computed(() => consent.value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+const atLeast14 = ref(false)
+const isValid = computed(() => consent.value && atLeast14.value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 
 const sending = ref(false)
 const failed = ref(false)
@@ -26,7 +33,7 @@ async function submit() {
   sending.value = true
   failed.value = false
   try {
-    await $fetch('/api/emails', { method: 'POST', body: { email: email.value.trim(), consent: true } })
+    await $fetch('/api/emails', { method: 'POST', body: { email: email.value.trim(), consent: true, atLeast14: true } })
     open.value = false
   } catch (error) {
     console.error('Could not save the email', error)
@@ -82,14 +89,61 @@ async function submit() {
             >
               <template #policy>
                 <ULink
-                  :to="privacyPolicyUrl(locale)"
+                  :to="PRIVACY_POLICY_PATH"
                   target="_blank"
+                  hreflang="es"
                   class="text-ink underline underline-offset-4"
                 >{{ t('thanks.privacyPolicy') }}<span class="sr-only"> {{ t('app.newTab') }}</span></ULink>
               </template>
             </i18n-t>
           </template>
         </UCheckbox>
+
+        <UCheckbox
+          v-model="atLeast14"
+          size="xl"
+          :label="t('thanks.age')"
+          class="-mt-4"
+        />
+
+        <!-- Data protection notice: must be read before submitting, hence above the button -->
+        <div class="flex flex-col gap-1 text-xs leading-snug">
+          <p>
+            <template
+              v-for="key in LEGAL_ITEMS"
+              :key="key"
+            >
+              <strong>{{ t(`thanks.legal.${key}.label`) }}:</strong>
+              {{ ' ' }}
+              <i18n-t
+                :keypath="`thanks.legal.${key}.text`"
+                scope="global"
+              >
+                <template #email>
+                  <ULink
+                    :href="`mailto:${DATA_RIGHTS_EMAIL}`"
+                    class="text-ink underline underline-offset-4"
+                  >{{ DATA_RIGHTS_EMAIL }}</ULink>
+                </template>
+              </i18n-t>
+              {{ ' ' }}
+            </template>
+          </p>
+          <i18n-t
+            keypath="thanks.legal.more"
+            tag="p"
+            scope="global"
+          >
+            <template #policy>
+              <ULink
+                :to="PRIVACY_POLICY_PATH"
+                target="_blank"
+                hreflang="es"
+                class="text-ink underline underline-offset-4"
+              >{{ t('thanks.privacyPolicy') }}<span class="sr-only"> {{ t('app.newTab') }}</span></ULink>
+            </template>
+          </i18n-t>
+        </div>
 
         <UButton
           type="submit"

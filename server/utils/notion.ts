@@ -9,10 +9,10 @@ import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#sh
  *
  * - responses: one row per person with their answers, never any contact
  *   details.
- * - emails: the addresses left on the thanks screen, with the instance and
- *   the privacy policy consent only, so an email can't be matched to a
- *   response. No time column (Notion still records each row's creation
- *   time). It can be shared by several instances.
+ * - emails: the addresses left on the thanks screen, with the instance, the
+ *   privacy policy consent, the age confirmation and when they were given
+ *   only, so an email can't be
+ *   matched to a response. It can be shared by several instances.
  *
  * Responses are stored one row per person.
  * Column names are built from the stable ids of the instance definition and
@@ -49,6 +49,7 @@ interface Column<Row> {
 export interface EmailSignup {
   email: string
   consent: true
+  atLeast14: true
 }
 
 const select = (value: string | null | undefined): PropertyValue => ({ select: value ? { name: value } : null })
@@ -157,6 +158,23 @@ function buildEmailColumns(instance: InstanceDefinition): Column<EmailSignup>[] 
       type: 'checkbox',
       schema: { checkbox: {} },
       value: signup => ({ checkbox: signup.consent })
+    },
+    {
+      // Always ticked too: the person confirmed being 14 or older (LOPDGDD
+      // art. 7), a box of its own as the DPO asked
+      name: 'atLeast14',
+      type: 'checkbox',
+      schema: { checkbox: {} },
+      value: signup => ({ checkbox: signup.atLeast14 })
+    },
+    {
+      // Proof of when consent was given, as the privacy policy promises: the
+      // row is created when the email is submitted with it. Notion's creation
+      // time can't be edited by hand, and it only keeps minutes, which also
+      // makes matching an email to a response by time harder.
+      name: 'consentedAt',
+      type: 'created_time',
+      schema: { created_time: {} }
     }
   ]
 }
