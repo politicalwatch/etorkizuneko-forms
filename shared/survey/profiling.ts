@@ -7,6 +7,14 @@
  * which are also the stable keys we persist — don't rename them lightly.
  */
 
+/*
+ * Basque Country provinces, asked instead of the postal code (data
+ * minimisation: the province is all the analysis needs, and it keeps the
+ * answers anonymous). Exception to the camelCase ids: the Basque names are
+ * stored as they are, so the table reads in Basque; labels translate only
+ * "Beste bat" (other).
+ */
+export const provinceOptions = ['Araba', 'Bizkaia', 'Gipuzkoa', 'Beste bat'] as const
 export const genderOptions = ['male', 'female', 'nonBinary', 'undisclosed'] as const
 export const diversityOptions = ['lgtbiq', 'racialized', 'functionalDiversity', 'otherMinority', 'none'] as const
 export const educationOptions = ['eso', 'bachillerato', 'gradoMedio', 'gradoSuperior', 'university', 'master', 'other'] as const
@@ -25,9 +33,11 @@ export const fieldOfStudyOptions = [
 
 export type ProfilingField
   = | { id: 'age', kind: 'number', min: number, max: number }
+    // Not asked by any instance for now (Industria asks the province); kept
+    // for instances that need finer location
     | { id: 'postalCode', kind: 'postalCode' }
     | {
-      id: 'gender' | 'diversity' | 'education' | 'occupation' | 'fieldOfStudy'
+      id: 'gender' | 'province' | 'diversity' | 'education' | 'occupation' | 'fieldOfStudy'
       kind: 'select'
       options: readonly string[]
       // Several answers allowed (stored as an array)
@@ -44,7 +54,7 @@ export type ProfilingValue = number | string | string[] | null
 export const sharedProfiling: readonly ProfilingField[] = [
   { id: 'age', kind: 'number', min: 1, max: 120 },
   { id: 'gender', kind: 'select', options: genderOptions },
-  { id: 'postalCode', kind: 'postalCode' },
+  { id: 'province', kind: 'select', options: provinceOptions },
   { id: 'diversity', kind: 'select', options: diversityOptions, multiple: true, exclusiveOption: 'none' },
   { id: 'education', kind: 'select', options: educationOptions },
   { id: 'occupation', kind: 'select', options: occupationOptions },

@@ -81,7 +81,7 @@ If either table is not configured or not writable, the intro shows an error and 
 2. Create two empty databases (only their default title column), one for responses and one for emails, and share both with the integration (⋯ menu → Connections).
 3. Copy each one's data source id (⋯ menu → Manage data sources → Copy data source ID) into `NUXT_NOTION_DATA_SOURCE_ID` (responses) and `NUXT_NOTION_EMAILS_DATA_SOURCE_ID` (emails).
 
-The emails table gets the email in its title column, plus `instance` and `consent` (the privacy policy acceptance; always ticked, since an email is only accepted with it). It has no time column on purpose, but Notion still records each row's creation time (page info, API), so don't rely on that for anonymity.
+The emails table gets the email in its title column, plus `instance`, `consent` (the privacy policy acceptance), `atLeast14` (the age confirmation; both always ticked, since an email is only accepted with them) and `consentedAt` (when it was given, as the privacy policy promises: Notion's creation time of the row, minute precision, not editable by hand).
 
 The responses table's columns are created on the first save, from the instance definition:
 

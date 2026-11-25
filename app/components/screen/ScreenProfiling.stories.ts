@@ -45,7 +45,7 @@ const storyFor = (id: ProfilingFieldId): Story => ({
 
 export const Age = storyFor('age')
 export const Gender = storyFor('gender')
-export const PostalCode = storyFor('postalCode')
+export const Province = storyFor('province')
 // Multiple choice; "Ninguna de las anteriores" is exclusive
 export const Diversity = storyFor('diversity')
 export const Education = storyFor('education')
