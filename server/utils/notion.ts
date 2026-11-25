@@ -15,8 +15,10 @@ import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#sh
  *   several instances.
  *
  * Neither table has time columns: dates are kept to the day, so they don't
- * help match an email to a response. (Notion still records each row's
- * creation and edit time in its metadata.)
+ * help match an email to a response. Notion still records each row's
+ * creation time in its metadata, so emails aren't written when they are left
+ * but queued and written in a daily batch, in random order
+ * (server/utils/email-queue.ts).
  *
  * Responses are stored one row per person.
  * Column names are built from the stable ids of the instance definition and
@@ -58,12 +60,17 @@ export interface EmailSignup {
   atLeast14: true
 }
 
+// A row of the emails table: a queued signup (server/utils/email-queue.ts)
+// with the day it was left
+export interface EmailRow extends EmailSignup {
+  day: string
+}
+
 const select = (value: string | null | undefined): PropertyValue => ({ select: value ? { name: value } : null })
 const options = (values: readonly string[]) => values.map(name => ({ name }))
 
-// Today in Spain (YYYY-MM-DD), as a Notion date without time
-const madridDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' })
-const today = (): PropertyValue => ({ date: { start: madridDay.format(new Date()) } })
+// A day (YYYY-MM-DD) as a Notion date without time
+const day = (value: string): PropertyValue => ({ date: { start: value } })
 
 const instanceColumn = (instance: InstanceDefinition): Column<unknown> => ({
   name: 'instance',
@@ -126,7 +133,7 @@ function buildResponseColumns(instance: InstanceDefinition): Column<SurveyRespon
   // Also the column order of the table views (see ensureColumns)
   return [
     // The day the person started (kept on later saves, even past midnight)
-    { name: 'date', type: 'date', schema: { date: {} }, createOnly: true, value: today },
+    { name: 'date', type: 'date', schema: { date: {} }, createOnly: true, value: () => day(todayInSpain()) },
     // Each instance has its own table (its questions differ); the column
     // keeps every row self-describing anyway
     instanceColumn(instance),
@@ -159,7 +166,7 @@ function buildResponseColumns(instance: InstanceDefinition): Column<SurveyRespon
 }
 
 // The email goes in the title column (see tableRow)
-function buildEmailColumns(instance: InstanceDefinition): Column<EmailSignup>[] {
+function buildEmailColumns(instance: InstanceDefinition): Column<EmailRow>[] {
   return [
     instanceColumn(instance),
     {
@@ -179,17 +186,18 @@ function buildEmailColumns(instance: InstanceDefinition): Column<EmailSignup>[] 
     },
     {
       // Proof of when consent was given, as the privacy policy promises: the
-      // row is created when the email is submitted with it
+      // day the email was left, not the day it reached Notion (emails are
+      // written in daily batches)
       name: 'consentDate',
       type: 'date',
       schema: { date: {} },
-      value: today
+      value: row => day(row.day)
     }
   ]
 }
 
 type TableName = 'responses' | 'emails'
-interface TableRow { responses: SurveyResponse, emails: EmailSignup }
+interface TableRow { responses: SurveyResponse, emails: EmailRow }
 
 interface Table<Row> {
   name: TableName
@@ -220,7 +228,7 @@ function useNotionTable<Name extends TableName>(name: Name): { client: Client } 
       }
     : {
         columns: columnsCache.emails ??= buildEmailColumns(instance),
-        title: (row: EmailSignup) => row.email
+        title: (row: EmailRow) => row.email
       }
   return { client, name, dataSourceId: tableId, ...table } as { client: Client } & Table<TableRow[Name]>
 }
@@ -334,11 +342,14 @@ export async function updateResponseRow(pageId: string, response: SurveyResponse
   await client.pages.update({ page_id: pageId, properties: await tableRow('responses', response) })
 }
 
-/** Adds an email to the emails table (nothing ties it to a response). */
-export async function createEmailRow(signup: EmailSignup): Promise<void> {
+/**
+ * Adds an email to the emails table (nothing ties it to a response). Only the
+ * daily flush of the email queue calls it.
+ */
+export async function createEmailRow(row: EmailRow): Promise<void> {
   const { client, dataSourceId } = useNotionTable('emails')
   await client.pages.create({
     parent: { type: 'data_source_id', data_source_id: dataSourceId },
-    properties: await tableRow('emails', signup, { create: true })
+    properties: await tableRow('emails', row, { create: true })
   })
 }

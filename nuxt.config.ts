@@ -40,7 +40,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/storybook',
     '@nuxtjs/i18n',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    // Local emulation of Netlify (the Blobs store of the email queue) in dev
+    '@netlify/nuxt'
   ],
 
   devtools: {
@@ -70,10 +72,23 @@ export default defineNuxtConfig({
       emailsDataSourceId: '',
       optional: false
     },
+    // Emails wait in a Netlify Blobs store until the daily flush writes them
+    // to Notion (server/utils/email-queue.ts). The store's name
+    // (NUXT_EMAIL_QUEUE_STORE), different per Netlify deploy context so
+    // production and testing never mix, and the secret the flush endpoint
+    // requires (NUXT_EMAIL_QUEUE_FLUSH_SECRET)
+    emailQueue: {
+      store: '',
+      flushSecret: ''
+    },
     public: {
       instanceName: INSTANCE_NAME
     }
   },
+
+  // Netlify's local state (the dev Blobs store) changes as the app runs:
+  // don't watch it
+  ignore: ['.netlify/**'],
 
   compatibilityDate: '2026-06-30',
 
@@ -120,5 +135,21 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_locale',
       fallbackLocale: 'es'
     }
+  },
+
+  // Local Netlify emulation (@netlify/nuxt): only Blobs, for the email queue.
+  // The rest stays off: no local database or functions to run, and no
+  // geolocation lookup (it sends the developer's IP to a Netlify API).
+  netlify: {
+    blobs: { enabled: true },
+    database: { enabled: false },
+    edgeFunctions: { enabled: false },
+    environmentVariables: { enabled: false },
+    functions: { enabled: false },
+    geolocation: { enabled: false },
+    headers: { enabled: false },
+    images: { enabled: false },
+    redirects: { enabled: false },
+    server: { enabled: false }
   }
 })

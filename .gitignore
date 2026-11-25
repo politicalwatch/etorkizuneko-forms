@@ -13,6 +13,9 @@ node_modules
 logs
 *.log
 
+# Netlify local state (the dev Blobs store of the email queue)
+.netlify
+
 # Misc
 .DS_Store
 .fleet

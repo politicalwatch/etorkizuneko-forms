@@ -24,6 +24,8 @@ cp .env.example .env   # then fill it in, see below
 | `NUXT_NOTION_API_KEY` | Token of the Notion integration that writes the responses. Secret, server only. |
 | `NUXT_NOTION_DATA_SOURCE_ID` | The responses table's **data source** id (not the database id). |
 | `NUXT_NOTION_EMAILS_DATA_SOURCE_ID` | The emails table's **data source** id. |
+| `NUXT_EMAIL_QUEUE_STORE` | Netlify Blobs store where emails wait for the daily flush. Different per deploy context (see [Email queue](#email-queue)). |
+| `NUXT_EMAIL_QUEUE_FLUSH_SECRET` | Secret the flush endpoint requires. Server only. |
 
 Each deployment serves one instance and has its own responses table, since the questions (and so the columns) differ per instance. Rows still record their `instance`, so a table's origin stays clear. The emails table can be shared by several deployments.
 
@@ -73,7 +75,9 @@ Responses are saved as people go through the survey, so unfinished ones are kept
 
 Emails left on the thanks screen go to a separate emails table, with only the instance next to them. The request carries nothing that refers to the response, and the responses table has no contact details, so an email can't be matched to the answers by their content.
 
-If either table is not configured or not writable, the intro shows an error and the survey can't be started.
+Emails are not written to Notion when they are left either: Notion records when each row was created, and an email written seconds after the last save of a response would match it. They wait in a queue instead, and a daily job writes them all at once, in random order (see [Email queue](#email-queue)).
+
+If either table or the email queue is not configured, or a table is not writable, the intro shows an error and the survey can't be started.
 
 ### Setting up the tables
 
@@ -90,11 +94,31 @@ The responses table's columns are created on the first save, from the instance d
 - question answers prefixed `question.` and their world and question position (`question.w1q1_likelyJob`…)
 - `result` (only once every question is answered)
 
-Neither table has time columns, only days, so dates can't be used to match an email to a response. Notion still records each row's creation and edit time in its own metadata.
+Neither table has time columns, only days, so dates can't be used to match an email to a response. Notion still records each row's creation and edit time in its own metadata, which is why emails are written in daily batches.
 
 When columns are added, the table views are also put in this order. Existing columns are never renamed or removed. Columns you hide or resize keep those settings, and columns you add yourself go at the end.
 
 Moving a question to another position changes its column name. Once responses are coming in, rename the column in Notion to match.
+
+### Email queue
+
+Emails wait in a [Netlify Blobs](https://docs.netlify.com/build/data-and-storage/netlify-blobs/) store, in the EU (Frankfurt), one entry per email under a random key. Every day at 03:00 UTC, the scheduled function `netlify/functions/flush-emails.mts` calls `POST /api/emails/flush`, which writes the queued emails to Notion in random order and deletes each one from the queue as soon as its row is written. A failed write keeps the email for the next day. A run writes what it can in about 20 seconds (the scheduled function's limit is 30); anything left waits for the next run.
+
+Set in Netlify (Site configuration → Environment variables), with **different values per deploy context** so production and testing never mix:
+
+- `NUXT_EMAIL_QUEUE_STORE`: the store's name, e.g. `email-queue` for Production and `email-queue-dev` for Deploy previews and Branch deploys.
+- `NUXT_EMAIL_QUEUE_FLUSH_SECRET`: a long random string (`openssl rand -hex 32`), required by the flush endpoint as a Bearer token. The scheduled function sends it.
+- The Notion table ids, so previews write to the dev tables: `NUXT_NOTION_DATA_SOURCE_ID` and `NUXT_NOTION_EMAILS_DATA_SOURCE_ID`.
+
+Their scopes must include Functions. Changing a value needs a redeploy.
+
+Scheduled functions only run on the published production deploy. To test the queue anywhere else (a deploy preview, or locally, where `npm run dev` uses a local store through `@netlify/nuxt`), leave an email and flush by hand:
+
+```sh
+curl -X POST -H "Authorization: Bearer $NUXT_EMAIL_QUEUE_FLUSH_SECRET" https://<deploy-url>/api/emails/flush
+```
+
+The response says how many emails were written and how many are left. In production, the Netlify UI can also run the scheduled function on demand (Functions → `flush-emails` → Run now). The queue can be inspected in Data & Storage → Blobs.
 
 ## Backups (CSV export)
 

@@ -16,6 +16,7 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.147",
     "@iconify-json/simple-icons": "^1.2.100",
+    "@netlify/blobs": "^11.1.11",
     "@notionhq/client": "^5.31.1",
     "@nuxt/ui": "^4.13.0",
     "@nuxtjs/i18n": "^10.6.0",
@@ -27,6 +28,8 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@netlify/functions": "^6.1.2",
+    "@netlify/nuxt": "^1.0.1",
     "@nuxt/eslint": "^1.17.0",
     "@nuxtjs/storybook": "latest",
     "@storybook/addon-a11y": "^10.6.8",
