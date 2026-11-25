@@ -100,7 +100,6 @@ const CONTROLLERS = [
       <section>
         <h2>2. Qué datos recogemos</h2>
         <p><strong>Respuestas a la encuesta (anónimas).</strong> Algunas preguntas tratan temas sensibles. Por eso las guardamos sin nombre, sin correo, sin dirección IP y sin ningún identificador que permita saber quién respondió. Al no poder relacionarse con ninguna persona, estos datos son anónimos y quedan fuera del RGPD. Te pedimos que no escribas en los campos abiertos nada que pueda identificarte a ti o a otras personas.</p>
-        <!-- Cut short in the source docx ("…y respetar."): the ending is ours, pending the DPO's review -->
         <p><strong>Tu correo electrónico (opcional).</strong> Solo si marcas la casilla de consentimiento al final del formulario. Junto al correo guardamos la fecha del consentimiento para poder demostrar que lo diste y respetar tu decisión si decides retirarlo.</p>
       </section>
 
@@ -157,6 +156,7 @@ const CONTROLLERS = [
         <ul>
           <li>Respuestas anónimas: sin plazo, al no ser datos personales.</li>
           <li>Correo: hasta que te des de baja o retires el consentimiento.</li>
+          <li>Mientras espera su envío a Notion, que hacemos una vez al día, el correo se guarda en Netlify y se borra de allí en cuanto se envía.</li>
           <li>Prueba del consentimiento: el tiempo necesario para atender posibles reclamaciones.</li>
         </ul>
 
@@ -185,8 +185,12 @@ const CONTROLLERS = [
               <tr>
                 <td>Notion</td>
                 <td>Base de datos</td>
-                <!-- TODO: still a placeholder in the source docx -->
                 <td>[EEUU]</td>
+              </tr>
+              <tr>
+                <td>Netlify</td>
+                <td>Alojamiento de la web (registra técnicamente las visitas, incluida la dirección IP) y almacenamiento temporal de los correos hasta su envío a Notion</td>
+                <td>EE. UU. (los correos se guardan en la UE)</td>
               </tr>
             </tbody>
           </table>
@@ -220,7 +224,6 @@ const CONTROLLERS = [
         <p>Es importante que, para que podamos mantener sus datos personales actualizados, nos informe siempre que se produzca una modificación de los mismos.</p>
 
         <h3>5.4. Confidencialidad.</h3>
-        <!-- Cut short in the source docx ("…salvo que el interesado."): the ending is ours, pending the DPO's review -->
         <p>Dot S. Coop. y la Fundación Salvador Soler (Political Watch) le informa que sus datos serán tratados con el máximo celo y confidencialidad por todo el personal que intervenga en cualquiera de las fases del tratamiento. No cederemos ni comunicaremos a ningún tercero sus datos, excepto en los casos legalmente previstos, o salvo que el interesado nos haya autorizado expresamente.</p>
       </section>
 
