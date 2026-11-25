@@ -81,14 +81,16 @@ If either table is not configured or not writable, the intro shows an error and 
 2. Create two empty databases (only their default title column), one for responses and one for emails, and share both with the integration (⋯ menu → Connections).
 3. Copy each one's data source id (⋯ menu → Manage data sources → Copy data source ID) into `NUXT_NOTION_DATA_SOURCE_ID` (responses) and `NUXT_NOTION_EMAILS_DATA_SOURCE_ID` (emails).
 
-The emails table gets the email in its title column, plus `instance`, `consent` (the privacy policy acceptance), `atLeast14` (the age confirmation; both always ticked, since an email is only accepted with them) and `consentedAt` (when it was given, as the privacy policy promises: Notion's creation time of the row, minute precision, not editable by hand).
+The emails table gets the email in its title column, plus `instance`, `consent` (the privacy policy acceptance), `atLeast14` (the age confirmation; both always ticked, since an email is only accepted with them) and `consentDate` (the day it was given, as the privacy policy promises).
 
 The responses table's columns are created on the first save, from the instance definition:
 
-- `createdAt`, `updatedAt`, `instance`, `locale`, and `step` (the screen the person was on at their last save; its options are in flow order, so grouping or sorting by it shows where people drop off)
+- `date` (the day the person started), `instance`, `locale`, and `step` (the screen the person was on at their last save; its options are in flow order, so grouping or sorting by it shows where people drop off)
 - profiling answers prefixed `profiling.` (`profiling.age`, `profiling.diversity`…)
 - question answers prefixed `question.` and their world and question position (`question.w1q1_likelyJob`…)
 - `result` (only once every question is answered)
+
+Neither table has time columns, only days, so dates can't be used to match an email to a response. Notion still records each row's creation and edit time in its own metadata.
 
 When columns are added, the table views are also put in this order. Existing columns are never renamed or removed. Columns you hide or resize keep those settings, and columns you add yourself go at the end.
 

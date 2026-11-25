@@ -10,9 +10,13 @@ import { buildSteps, isSavedStep, profilingKey, questionKey, stepKey } from '#sh
  * - responses: one row per person with their answers, never any contact
  *   details.
  * - emails: the addresses left on the thanks screen, with the instance, the
- *   privacy policy consent, the age confirmation and when they were given
- *   only, so an email can't be
- *   matched to a response. It can be shared by several instances.
+ *   privacy policy consent, the age confirmation and the day they were given
+ *   only, so an email can't be matched to a response. It can be shared by
+ *   several instances.
+ *
+ * Neither table has time columns: dates are kept to the day, so they don't
+ * help match an email to a response. (Notion still records each row's
+ * creation and edit time in its metadata.)
  *
  * Responses are stored one row per person.
  * Column names are built from the stable ids of the instance definition and
@@ -44,6 +48,8 @@ interface Column<Row> {
   schema: PropertySchema
   // Value written to the row; undefined = column filled in by Notion
   value?: (row: Row) => PropertyValue
+  // Written when the row is created only, never on later updates
+  createOnly?: boolean
 }
 
 export interface EmailSignup {
@@ -54,6 +60,10 @@ export interface EmailSignup {
 
 const select = (value: string | null | undefined): PropertyValue => ({ select: value ? { name: value } : null })
 const options = (values: readonly string[]) => values.map(name => ({ name }))
+
+// Today in Spain (YYYY-MM-DD), as a Notion date without time
+const madridDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' })
+const today = (): PropertyValue => ({ date: { start: madridDay.format(new Date()) } })
 
 const instanceColumn = (instance: InstanceDefinition): Column<unknown> => ({
   name: 'instance',
@@ -115,8 +125,8 @@ function buildResponseColumns(instance: InstanceDefinition): Column<SurveyRespon
 
   // Also the column order of the table views (see ensureColumns)
   return [
-    { name: 'createdAt', type: 'created_time', schema: { created_time: {} } },
-    { name: 'updatedAt', type: 'last_edited_time', schema: { last_edited_time: {} } },
+    // The day the person started (kept on later saves, even past midnight)
+    { name: 'date', type: 'date', schema: { date: {} }, createOnly: true, value: today },
     // Each instance has its own table (its questions differ); the column
     // keeps every row self-describing anyway
     instanceColumn(instance),
@@ -169,12 +179,11 @@ function buildEmailColumns(instance: InstanceDefinition): Column<EmailSignup>[] 
     },
     {
       // Proof of when consent was given, as the privacy policy promises: the
-      // row is created when the email is submitted with it. Notion's creation
-      // time can't be edited by hand, and it only keeps minutes, which also
-      // makes matching an email to a response by time harder.
-      name: 'consentedAt',
-      type: 'created_time',
-      schema: { created_time: {} }
+      // row is created when the email is submitted with it
+      name: 'consentDate',
+      type: 'date',
+      schema: { date: {} },
+      value: today
     }
   ]
 }
@@ -301,7 +310,9 @@ async function tableRow<Name extends TableName>(name: Name, row: TableRow[Name],
   const { columns, title } = useNotionTable(name)
 
   const properties: Record<string, PropertyValue> = Object.fromEntries(
-    columns.filter(column => column.value).map(column => [column.name, column.value!(row)])
+    columns
+      .filter(column => column.value && (create || !column.createOnly))
+      .map(column => [column.name, column.value!(row)])
   )
   if (create) properties[titleColumn] = { title: [{ text: { content: title(row) } }] }
   return properties
