@@ -47,8 +47,7 @@ useHead({
 })
 
 // On mobile the white screens are full-bleed, without the tagline
-const taglineClass = (step: Step) =>
-  ['px-6 pb-8', { 'max-md:hidden': surfaceOf(step) === 'surface-light' }]
+const isCompactFooter = (step: Step) => surfaceOf(step) === 'surface-light'
 
 // The screen's box; the incoming screen of a scroll transition uses it too
 const screenClass = 'flex flex-1 flex-col px-6 py-10 pe-12 sm:px-24'
@@ -116,9 +115,9 @@ watch(() => store.step, async (step, prev) => {
       />
     </main>
 
-    <AppTagline
+    <AppFooter
       class="relative z-20"
-      :class="taglineClass(store.step)"
+      :compact="isCompactFooter(store.step)"
     />
 
     <AppProgressRuler
@@ -127,7 +126,7 @@ watch(() => store.step, async (step, prev) => {
       class="fixed end-3 top-1/2 z-20 -translate-y-1/2 sm:end-4"
     />
 
-    <!-- Header and tagline stay on top: invisible copies only hold their space -->
+    <!-- Header and footer stay on top: invisible copies only hold their space -->
     <div
       v-if="incoming"
       ref="cover"
@@ -142,9 +141,9 @@ watch(() => store.step, async (step, prev) => {
           :step="incoming"
         />
       </div>
-      <AppTagline
+      <AppFooter
         class="invisible"
-        :class="taglineClass(incoming)"
+        :compact="isCompactFooter(incoming)"
       />
     </div>
   </div>

@@ -7,5 +7,11 @@ const PROJECT_SITE = 'https://etorkizunekoforoa.eus'
 
 export const projectUrl = (locale: string) => `${PROJECT_SITE}/${locale}`
 
-// Placeholder until the privacy policy is published: update once its URL is known
-export const privacyPolicyUrl = (locale: string) => `${PROJECT_SITE}/${locale}/privacy`
+// Privacy policy page (pages/politica-privacidad.vue): one for every instance,
+// in Spanish only for now. Opened in a new tab from the survey, since leaving
+// the page would lose the response.
+export const PRIVACY_POLICY_PATH = '/politica-privacidad'
+
+// Where people exercise their data protection rights (the controller, see the
+// privacy policy)
+export const DATA_RIGHTS_EMAIL = 'hello@feeldot.com'
