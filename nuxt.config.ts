@@ -118,6 +118,12 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    // Public address of the site, for the absolute canonical and og:url
+    // links. Each instance has its own domain: Netlify sets URL at build time
+    // to the site's main address (also on deploy previews, which so point
+    // their canonical at production). NUXT_PUBLIC_I18N_BASE_URL overrides it
+    // at runtime.
+    baseUrl: process.env.URL ?? 'http://localhost:3000',
     // No URL prefix: the form is a guided flow, and switching language
     // (setLocale) must not navigate or lose what has already been filled in.
     strategy: 'no_prefix',
